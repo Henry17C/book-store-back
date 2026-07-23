@@ -40,4 +40,8 @@ public record BookFormat(FormatType value) {
         return this.value == FormatType.PAPERBACK || this.value == FormatType.HARDCOVER;
     }
 
+    public String asString() {
+        return this.value.name();
+    }
+
 }

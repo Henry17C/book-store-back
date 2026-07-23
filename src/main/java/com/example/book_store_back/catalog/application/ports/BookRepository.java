@@ -10,5 +10,6 @@ public interface BookRepository {
     public Optional<Book> findById(UUID id);
     public List<Book> searchByAuthor(UUID authorId);
     public void save(Book book);
-    public List<Book> findAll();
+    boolean existsByIsbn(String isbn);
+    
 }

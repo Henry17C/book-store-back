@@ -12,6 +12,7 @@ public interface AuthorRepository {
     public List<Author> findAllByIds(List<UUID> ids);
     public  List<Author> findAll ();
     public void save(Author author);
+    public long countByIds (List<UUID> authorIds);
 
 
 }

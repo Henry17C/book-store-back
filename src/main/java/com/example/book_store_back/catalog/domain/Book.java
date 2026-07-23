@@ -21,12 +21,10 @@ public class Book {
     private Boolean isRecommended;
     private BookStatus status;
     private BookDescription bookDescription;
-    // private List<UUID> reviewIds;/// Modificar pues pueden existir infinitas y
-    // afecta al redimiento
 
     public Book(UUID id, String title, Isbn isbn, Language language, Money price, BookFormat format,
             LocalDateTime releaseDate, BookDescription bookDescription, Boolean isRecommended,
-            BookStatus status, List<UUID> authorIds, List<UUID> reviewIds) {
+            BookStatus status, List<UUID> authorIds) {
         this.id = Objects.requireNonNull(id, "El id del libro no puede ser null.");
         this.title = Objects.requireNonNull(title, "El titulo no pueder ser nulo.");
         this.isbn = Objects.requireNonNull(isbn, "El ISBN no puede ser nulo.");
@@ -42,27 +40,48 @@ public class Book {
     }
 
     public static Book register(UUID id, String title, Isbn isbn, Language language, Money price, BookFormat format,
+            LocalDateTime releaseDate, BookDescription bookDescription, List<UUID> authorIds) {
+        return new Book(id, title, isbn, language, price, format, releaseDate, bookDescription, false,
+                BookStatus.ACTIVE,
+                authorIds);
+    }
+
+    public void updateInformation(String title, Isbn isbn, Language language, Money price, BookFormat format,
             LocalDateTime releaseDate, BookDescription bookDescription) {
-        return new Book(id, title, isbn, language, price, format, releaseDate,bookDescription , false, BookStatus.ACTIVE,
-                new ArrayList<>(), new ArrayList<>());
+
+        this.title = Objects.requireNonNull(title, "El titulo no pueder ser nulo.");
+        this.isbn = Objects.requireNonNull(isbn, "El ISBN no puede ser nulo.");
+        this.price = Objects.requireNonNull(price, "El precio no puede ser nulo.");
+        this.format = Objects.requireNonNull(format, "El formato no puede ser nulo.");
+        this.language = Objects.requireNonNull(language, "El lenguaje no puede ser nulo.");
+        this.releaseDate = Objects.requireNonNull(releaseDate, "La fecha de publicación no puede ser nula.");
+        this.bookDescription = Objects.requireNonNull(bookDescription, "La descripción no puede ser nula.");
+
     }
 
-    public void setTitle(String title) {
-        if (title == null || title.isBlank()) {
-            throw new IllegalArgumentException("El título del libro no puede estar vacío.");
+    // Acciones de Marketing
+
+    public void markAsRecommended(Boolean isRecommended) {
+        this.isRecommended = true;
+    }
+
+    public void removeRecommendation(Boolean isRecommended) {
+        this.isRecommended = false;
+    }
+
+    // Ciclo de vida (Soft Delete)
+    public void archive() {
+        if (this.status == BookStatus.ARCHIVED) {
+            throw new IllegalStateException("El libro ya se encuentra archivado.");
         }
-        this.title = title;
-
+        this.status = BookStatus.ARCHIVED;
     }
 
-    public void setIsRecommended(Boolean isRecommended) {
-        this.isRecommended = isRecommended;
+    public void restore() {
+        this.status = BookStatus.ACTIVE;
     }
 
-    public void setStatus(BookStatus status) {
-        this.status = status;
-    }
-
+    // Modificar Authores del libro
     public void addAuthor(UUID newIdAuthor) {
 
         boolean isAdded = authorIds.stream().anyMatch(a -> a.equals(newIdAuthor));
@@ -77,15 +96,11 @@ public class Book {
         }
     }
 
-    public void setBookDescription(BookDescription bookDescription){
-        this.bookDescription= bookDescription;
-    }
-
+    // Getters
     public List<UUID> getAuthorIds() {
         return List.copyOf(authorIds);
     }
 
-    // Getters
     public UUID getId() {
         return this.id;
     }
@@ -118,7 +133,7 @@ public class Book {
         return this.status;
     }
 
-    public BookDescription getBookDescription(){
+    public BookDescription getBookDescription() {
         return this.bookDescription;
     }
 }
