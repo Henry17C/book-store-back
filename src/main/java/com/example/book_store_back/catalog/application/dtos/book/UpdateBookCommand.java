@@ -14,7 +14,6 @@ public record UpdateBookCommand(
     List<UUID> authorIds,
     String languaje,
     LocalDateTime releaseDate,
-    Boolean isRecommended,
     String description
 ) {
     

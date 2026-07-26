@@ -61,11 +61,11 @@ public class Book {
 
     // Acciones de Marketing
 
-    public void markAsRecommended(Boolean isRecommended) {
+    public void markAsRecommended() {
         this.isRecommended = true;
     }
 
-    public void removeRecommendation(Boolean isRecommended) {
+    public void removeRecommendation() {
         this.isRecommended = false;
     }
 
@@ -77,8 +77,18 @@ public class Book {
         this.status = BookStatus.ARCHIVED;
     }
 
-    public void restore() {
+    public void unarchive() {
         this.status = BookStatus.ACTIVE;
+    }
+
+    // Método para reemplazar completamente la lista de autores
+    public void updateAuthors(List<UUID> newAuthorIds) {
+        if (newAuthorIds == null || newAuthorIds.isEmpty()) {
+            throw new IllegalArgumentException("El libro debe tener al menos un autor.");
+        }
+        // Creamos una nueva lista para asegurar la mutabilidad y desenlazar la
+        // referencia anterior
+        this.authorIds = new ArrayList<>(newAuthorIds);
     }
 
     // Modificar Authores del libro
