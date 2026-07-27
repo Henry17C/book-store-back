@@ -22,9 +22,11 @@ public class Book {
     private BookStatus status;
     private BookDescription bookDescription;
 
+    private Boolean hasStock;
+
     public Book(UUID id, String title, Isbn isbn, Language language, Money price, BookFormat format,
             LocalDateTime releaseDate, BookDescription bookDescription, Boolean isRecommended,
-            BookStatus status, List<UUID> authorIds) {
+            BookStatus status, List<UUID> authorIds, Boolean hasStock) {
         this.id = Objects.requireNonNull(id, "El id del libro no puede ser null.");
         this.title = Objects.requireNonNull(title, "El titulo no pueder ser nulo.");
         this.isbn = Objects.requireNonNull(isbn, "El ISBN no puede ser nulo.");
@@ -36,14 +38,14 @@ public class Book {
         this.isRecommended = Objects.requireNonNull(isRecommended, "La recomendación no puede ser nula.");
         this.status = Objects.requireNonNull(status, "El estado no puede ser nulo.");
         this.bookDescription = Objects.requireNonNull(bookDescription, "La descripción no puede ser nula.");
-
+        this.hasStock = Objects.requireNonNull(hasStock, "El estado de stock no puede ser nulo.");
     }
 
     public static Book register(UUID id, String title, Isbn isbn, Language language, Money price, BookFormat format,
             LocalDateTime releaseDate, BookDescription bookDescription, List<UUID> authorIds) {
         return new Book(id, title, isbn, language, price, format, releaseDate, bookDescription, false,
                 BookStatus.ACTIVE,
-                authorIds);
+                authorIds, false);
     }
 
     public void updateInformation(String title, Isbn isbn, Language language, Money price, BookFormat format,
@@ -104,6 +106,22 @@ public class Book {
         if (authorId != null) {
             this.authorIds.removeIf(id -> id.equals(authorId));
         }
+    }
+
+    // =========================================
+    // Sincronización de Inventario (Consistencia Eventual)
+    // =========================================
+
+    public void markAsInStock() {
+        this.hasStock = true;
+    }
+
+    public void markAsOutOfStock() {
+        this.hasStock = false;
+    }
+
+    public Boolean hasStock() {
+        return this.hasStock;
     }
 
     // Getters
