@@ -15,31 +15,26 @@ public class Author {
         this.name = name;
     }
 
-    public Author register(UUID id, String name, String biography) {
+    public static Author register(UUID id, String name, String biography) {
         validateBiography(biography);
         validateName(name);
         return new Author(id, name, biography);
     }
 
-    public void updateBiography(String newBio) {
-        validateBiography(biography);
-        this.biography = newBio;
-    }
-
-    public void updateName(String name) {
-        validateName(name);
-        this.name = name;
+    public void  updateAuthor(String name, String biography){
+        this.name=Objects.requireNonNull(name, "El nombre no pueder ser nulo.");
+        this.biography=Objects.requireNonNull(biography, "La biografía no pueder ser nulo.");
     }
 
     // Validación de la logica de negocio
 
-    private void validateName(String name) {
+    private static void validateName(String name) {
         if (name == null || name.strip().isEmpty()) {
             throw new IllegalArgumentException("Ingrese el nombre del Autor");
         }
     }
 
-    private void validateBiography(String biography) {
+    private static void validateBiography(String biography) {
         if (biography == null || biography.strip().isEmpty()) {
             throw new IllegalArgumentException("Ingrese la biografía del Autor");
         }
