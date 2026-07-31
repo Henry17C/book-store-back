@@ -12,6 +12,7 @@ public class Review {
     private Integer rating;
     private String comment;
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public Review(UUID id, UUID bookId, UUID userId, Integer rating, String comment, LocalDateTime createdAt) {
         validateRating(rating);
@@ -30,14 +31,23 @@ public class Review {
 
     }
 
+    public void edit(Integer newRating, String newComment) {
+        validateComment(newComment);
+        validateRating(newRating);
+        this.comment = newComment;
+        this.rating = newRating;
+        this.updatedAt = LocalDateTime.now();
+
+    }
+
     public void updateCommet(String newComment) {
-        validateComment(comment);
+        validateComment(newComment);
         this.comment = newComment;
 
     }
 
     public void updateRating(Integer newRating) {
-        validateRating(rating);
+        validateRating(newRating);
         this.rating = newRating;
 
     }
@@ -46,16 +56,16 @@ public class Review {
 
     private void validateRating(Integer rating) {
         if (rating == null || rating < 1 || rating > 5) {
-            throw new IllegalArgumentException("La calificación debe esta entre 1 y 5");
+            throw new IllegalArgumentException("La calificación debe estar entre 1 y 5.");
         }
 
     }
 
     private void validateComment(String comment) {
         if (comment == null || comment.strip().isEmpty()) {
-            throw new IllegalArgumentException("El comentario no puede estar vacío");
+            throw new IllegalArgumentException("El comentario no puede estar vacío.");
         }
-        
+
     }
 
     // Getters
@@ -80,7 +90,7 @@ public class Review {
         return this.comment;
     }
 
-    public LocalDateTime getCreateAt() {
+    public LocalDateTime getCreatedAt() {
         return this.createdAt;
     }
 

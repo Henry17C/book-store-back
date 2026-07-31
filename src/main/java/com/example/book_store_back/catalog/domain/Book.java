@@ -23,6 +23,9 @@ public class Book {
     private BookDescription bookDescription;
 
     private Boolean hasStock;
+    // Desnormalización controlada.
+    private Double averageRating;
+    private Integer totalReviews;
 
     public Book(UUID id, String title, Isbn isbn, Language language, Money price, BookFormat format,
             LocalDateTime releaseDate, BookDescription bookDescription, Boolean isRecommended,
@@ -122,6 +125,40 @@ public class Book {
 
     public Boolean hasStock() {
         return this.hasStock;
+    }
+
+    public void addNewReview(Integer newRating) {
+        if (newRating == null || newRating < 1 || newRating > 5) {
+            throw new IllegalArgumentException("El rating debe estar entre 1 y 5.");
+        }
+
+        // Fórmula del promedio móvil:
+        // Nuevo Promedio = ((Promedio Actual * Total Reseñas) + Nuevo Rating) / (Total
+        // Reseñas + 1)
+
+        double currentTotalScore = this.averageRating * this.totalReviews;
+        this.totalReviews += 1;
+
+        double newAverage = (currentTotalScore + newRating) / this.totalReviews;
+        this.averageRating = Math.round(newAverage * 10.0) / 10.0;
+    }
+
+    public void updateReview(Integer previousRating, Integer newRating) {
+        if (newRating == null || newRating < 1 || newRating > 5) {
+            throw new IllegalArgumentException("El rating debe estar entre 1 y 5.");
+        }
+
+        if (previousRating == null || previousRating < 1 || previousRating > 5) {
+            throw new IllegalArgumentException("El rating debe estar entre 1 y 5.");
+        }
+
+        // Fórmula del promedio móvil:
+        // Nuevo Promedio = ((Promedio Actual * Total Reseñas) + Nuevo Rating - Rating Previo ) / (Total)
+
+        double currentTotalScore = this.averageRating * this.totalReviews;
+
+        double newAverage = (currentTotalScore - previousRating + newRating) / this.totalReviews;
+        this.averageRating = Math.round(newAverage * 10.0) / 10.0;
     }
 
     // Getters
