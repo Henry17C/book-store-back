@@ -153,11 +153,32 @@ public class Book {
         }
 
         // Fórmula del promedio móvil:
-        // Nuevo Promedio = ((Promedio Actual * Total Reseñas) + Nuevo Rating - Rating Previo ) / (Total)
+        // Nuevo Promedio = ((Promedio Actual * Total Reseñas) + Nuevo Rating - Rating
+        // Previo ) / (Total)
 
         double currentTotalScore = this.averageRating * this.totalReviews;
 
         double newAverage = (currentTotalScore - previousRating + newRating) / this.totalReviews;
+        this.averageRating = Math.round(newAverage * 10.0) / 10.0;
+    }
+
+    public void removeReviewRating(Integer previousRating) {
+        if (previousRating == null || previousRating < 1 || previousRating > 5) {
+            throw new IllegalArgumentException("El rating debe estar entre 1 y 5.");
+        }
+
+        if (this.totalReviews <= 1) {
+            this.totalReviews = 0;
+            this.averageRating = 0.0;
+            return;
+        }
+        // Fórmula del promedio móvil:
+        // Nuevo Promedio = ((Promedio Actual * Total Reseñas -1 )- Rating Previo ) /
+        // (Total)
+        double currentTotalScore = this.averageRating * this.totalReviews;
+        this.totalReviews -= 1;
+
+        double newAverage = (currentTotalScore - previousRating) / this.totalReviews;
         this.averageRating = Math.round(newAverage * 10.0) / 10.0;
     }
 

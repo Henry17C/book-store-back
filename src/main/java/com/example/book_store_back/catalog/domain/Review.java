@@ -13,8 +13,9 @@ public class Review {
     private String comment;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private Boolean isActive;
 
-    public Review(UUID id, UUID bookId, UUID userId, Integer rating, String comment, LocalDateTime createdAt) {
+    public Review(UUID id, UUID bookId, UUID userId, Integer rating, String comment, LocalDateTime createdAt, Boolean isActive) {
         validateRating(rating);
         validateComment(comment);
         this.id = Objects.requireNonNull(id, "El id no puede ser nulo.");
@@ -23,11 +24,12 @@ public class Review {
         this.rating = rating;
         this.comment = comment;
         this.createdAt = Objects.requireNonNull(createdAt, "La fecha no puede ser nula.");
+        this.isActive=isActive;
     }
 
     // Factory
     public static Review write(UUID id, UUID bookId, UUID userId, Integer rating, String comment) {
-        return new Review(id, bookId, userId, rating, comment, LocalDateTime.now());
+        return new Review(id, bookId, userId, rating, comment, LocalDateTime.now(), true);
 
     }
 
@@ -38,6 +40,9 @@ public class Review {
         this.rating = newRating;
         this.updatedAt = LocalDateTime.now();
 
+    }
+    public void archiveReview(){
+        this.isActive=false;
     }
 
     public void updateCommet(String newComment) {
