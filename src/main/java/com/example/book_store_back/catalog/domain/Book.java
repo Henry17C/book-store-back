@@ -21,6 +21,7 @@ public class Book {
     private Boolean isRecommended;
     private BookStatus status;
     private BookDescription bookDescription;
+    private String coverUrl;
 
     private Boolean hasStock;
     // Desnormalización controlada.
@@ -28,7 +29,7 @@ public class Book {
     private Integer totalReviews;
 
     public Book(UUID id, String title, Isbn isbn, Language language, Money price, BookFormat format,
-            LocalDateTime releaseDate, BookDescription bookDescription, Boolean isRecommended,
+            LocalDateTime releaseDate, BookDescription bookDescription, String coverUrl, Boolean isRecommended,
             BookStatus status, List<UUID> authorIds, Boolean hasStock) {
         this.id = Objects.requireNonNull(id, "El id del libro no puede ser null.");
         this.title = Objects.requireNonNull(title, "El titulo no pueder ser nulo.");
@@ -42,17 +43,18 @@ public class Book {
         this.status = Objects.requireNonNull(status, "El estado no puede ser nulo.");
         this.bookDescription = Objects.requireNonNull(bookDescription, "La descripción no puede ser nula.");
         this.hasStock = Objects.requireNonNull(hasStock, "El estado de stock no puede ser nulo.");
+        this.coverUrl = coverUrl;
     }
 
     public static Book register(UUID id, String title, Isbn isbn, Language language, Money price, BookFormat format,
-            LocalDateTime releaseDate, BookDescription bookDescription, List<UUID> authorIds) {
-        return new Book(id, title, isbn, language, price, format, releaseDate, bookDescription, false,
+            LocalDateTime releaseDate, BookDescription bookDescription, String coverUrl, List<UUID> authorIds) {
+        return new Book(id, title, isbn, language, price, format, releaseDate, bookDescription, coverUrl, false,
                 BookStatus.ACTIVE,
                 authorIds, false);
     }
 
     public void updateInformation(String title, Isbn isbn, Language language, Money price, BookFormat format,
-            LocalDateTime releaseDate, BookDescription bookDescription) {
+            LocalDateTime releaseDate, BookDescription bookDescription, String coverUrl) {
 
         this.title = Objects.requireNonNull(title, "El titulo no pueder ser nulo.");
         this.isbn = Objects.requireNonNull(isbn, "El ISBN no puede ser nulo.");
@@ -61,7 +63,7 @@ public class Book {
         this.language = Objects.requireNonNull(language, "El lenguaje no puede ser nulo.");
         this.releaseDate = Objects.requireNonNull(releaseDate, "La fecha de publicación no puede ser nula.");
         this.bookDescription = Objects.requireNonNull(bookDescription, "La descripción no puede ser nula.");
-
+        this.coverUrl = coverUrl;
     }
 
     // Acciones de Marketing
@@ -109,6 +111,12 @@ public class Book {
         if (authorId != null) {
             this.authorIds.removeIf(id -> id.equals(authorId));
         }
+    }
+    public void changeCover(String newCoverUrl) {
+        if (newCoverUrl == null || newCoverUrl.trim().isEmpty()) {
+            throw new IllegalArgumentException("La URL de la portada no puede estar vacía.");
+        }
+        this.coverUrl = newCoverUrl;
     }
 
     // =========================================
@@ -221,5 +229,8 @@ public class Book {
 
     public BookDescription getBookDescription() {
         return this.bookDescription;
+    }
+    public String getCoverUrl() {
+        return this.coverUrl;
     }
 }
