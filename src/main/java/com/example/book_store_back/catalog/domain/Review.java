@@ -15,7 +15,8 @@ public class Review {
     private LocalDateTime updatedAt;
     private Boolean isActive;
 
-    public Review(UUID id, UUID bookId, UUID userId, Integer rating, String comment, LocalDateTime createdAt, Boolean isActive) {
+    public Review(UUID id, UUID bookId, UUID userId, Integer rating, String comment, LocalDateTime createdAt,
+            Boolean isActive, LocalDateTime updatedAt) {
         validateRating(rating);
         validateComment(comment);
         this.id = Objects.requireNonNull(id, "El id no puede ser nulo.");
@@ -24,12 +25,13 @@ public class Review {
         this.rating = rating;
         this.comment = comment;
         this.createdAt = Objects.requireNonNull(createdAt, "La fecha no puede ser nula.");
-        this.isActive=isActive;
+        this.isActive = isActive;
+        this.updatedAt = updatedAt;
     }
 
     // Factory
     public static Review write(UUID id, UUID bookId, UUID userId, Integer rating, String comment) {
-        return new Review(id, bookId, userId, rating, comment, LocalDateTime.now(), true);
+        return new Review(id, bookId, userId, rating, comment, LocalDateTime.now(), true, null);
 
     }
 
@@ -41,19 +43,23 @@ public class Review {
         this.updatedAt = LocalDateTime.now();
 
     }
-    public void archiveReview(){
-        this.isActive=false;
+
+    public void archiveReview() {
+        this.isActive = false;
+        this.updatedAt = LocalDateTime.now();
     }
 
     public void updateCommet(String newComment) {
         validateComment(newComment);
         this.comment = newComment;
+        this.updatedAt = LocalDateTime.now();
 
     }
 
     public void updateRating(Integer newRating) {
         validateRating(newRating);
         this.rating = newRating;
+        this.updatedAt = LocalDateTime.now();
 
     }
 
@@ -97,6 +103,14 @@ public class Review {
 
     public LocalDateTime getCreatedAt() {
         return this.createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return this.updatedAt;
+    }
+
+    public Boolean getIsActive() {
+        return this.isActive;
     }
 
 }
