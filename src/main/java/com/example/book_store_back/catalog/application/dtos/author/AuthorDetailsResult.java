@@ -2,7 +2,7 @@ package com.example.book_store_back.catalog.application.dtos.author;
 
 import java.util.UUID;
 
-public record AuthorDetailsResponse(
+public record AuthorDetailsResult(
         UUID id,
         String name,
         String biography) {

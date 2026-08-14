@@ -50,9 +50,10 @@ public class RegisterBookInteractor implements RegisterBookUseCase {
         Language language = Language.valueOf(command.language().toUpperCase());
         LocalDateTime releaseDate = command.releaseDate();
         BookDescription bookDescription = new BookDescription(command.description());
+        String coverUrl= null; //TODO: S3
 
         // 3. Guardar (INSERT)
-        Book book = Book.register(id, title, isbn, language, price, format, releaseDate, bookDescription, authorIds);
+        Book book = Book.register(id, title, isbn, language, price, format, releaseDate, bookDescription, coverUrl , authorIds);
         bookRepository.save(book);
     }
 
