@@ -28,42 +28,59 @@ import lombok.Setter;
 @Table(name = "books")
 @AllArgsConstructor @NoArgsConstructor @Getter @Setter
 public class BookEntity {
+    
+    // 1
     @Id
     private UUID id;
 
+    // 2
     @Column(nullable = false)
     private String title;
 
+    // 3
     @Column(name = "isbn", nullable = false, unique = true)
     private String isbnValue;
 
+    // 4
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Language language;
+
+    // 5
     @Column(name = "price_amount", nullable = false)
     private BigDecimal priceAmount;
 
+    // 6
     @Column(name = "price_currency", nullable = false, length = 3)
     private String priceCurrency;
 
-    @Column(name = "synopsis", columnDefinition = "TEXT")
-    private String sypnosis;
+    // 7
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private BookFormat format;
 
-    @Column(name = "cover_url")
-    private String coverUrl;
-
+    // 8
     @Column(name = "release_date", nullable = false)
     private LocalDateTime releaseDate;
 
+    // 9
+    @Column(name = "synopsis", columnDefinition = "TEXT")
+    private String sypnosis;
+
+    // 10
+    @Column(name = "cover_url")
+    private String coverUrl;
+
+    // 11
     @Column(name = "is_recommended", nullable = false)
     private Boolean isRecomended;
 
-    @Column(name = "has_stock", nullable = false)
-    private Boolean hasStock;
+    // 12
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private BookStatus status;
 
-    @Column(name = "average_rating")
-    private Double averageRating;
-
-    @Column(name = "total_reviews")
-    private Integer totalReview;
-
+    // 13
     @ElementCollection(fetch = FetchType.EAGER) 
     @CollectionTable(
         name = "book_authors", 
@@ -72,15 +89,15 @@ public class BookEntity {
     @Column(name = "author_id")
     private List<UUID> authorIds;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private BookFormat format;
+    // 14
+    @Column(name = "has_stock", nullable = false)
+    private Boolean hasStock;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Language language;
+    // 15
+    @Column(name = "average_rating")
+    private Double averageRating;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private BookStatus status;
+    // 16
+    @Column(name = "total_reviews")
+    private Integer totalReview;
 }
