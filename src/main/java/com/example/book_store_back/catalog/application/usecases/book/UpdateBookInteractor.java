@@ -50,7 +50,7 @@ public class UpdateBookInteractor implements UpdateBookUseCase {
         Language newLanguage = Language.valueOf(command.languaje().toUpperCase());
         LocalDateTime newReleaseDate = command.releaseDate();
         BookDescription newBookDescription = new BookDescription(command.description());
-        String coverUrl= null; // TODO: S3
+        String coverUrl=null; //TODO: S3
         // 4. Modificar el estado del Agregado (usando sus métodos de dominio)
         book.updateAuthors(newAuthorIds);
         book.updateInformation(newTitle, newIsbn, newLanguage, newPrice, newFormat, newReleaseDate, newBookDescription, coverUrl);

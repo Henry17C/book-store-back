@@ -2,7 +2,7 @@ package com.example.book_store_back.catalog.application.usecases.author;
 
 import java.util.List;
 
-import com.example.book_store_back.catalog.application.dtos.author.AuthorDetailsResponse;
+import com.example.book_store_back.catalog.application.dtos.author.AuthorDetailsResult;
 import com.example.book_store_back.catalog.application.dtos.author.SearchAuthorQuery;
 import com.example.book_store_back.catalog.application.ports.AuthorRepository;
 import com.example.book_store_back.catalog.domain.Author;
@@ -16,7 +16,7 @@ public class SearchAuthorsByNameInteractor implements SearchAuthorsByNameUseCase
         this.authorRepository = authorRepository;
     }
 
-    public List<AuthorDetailsResponse> execute(SearchAuthorQuery query) {
+    public List<AuthorDetailsResult> execute(SearchAuthorQuery query) {
 
         String name = query.name();
         // 1. Espacios en blanco
@@ -32,7 +32,7 @@ public class SearchAuthorsByNameInteractor implements SearchAuthorsByNameUseCase
         // 4. Mapeo al DTO de salida
 
         return authors.stream().map((author) -> {
-            return new AuthorDetailsResponse(author.getId(), author.getName(), author.getBiography());
+            return new AuthorDetailsResult(author.getId(), author.getName(), author.getBiography());
         }).toList();
     }
 
