@@ -4,8 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import com.example.book_store_back.catalog.application.dtos.money.MoneyResponse;
-
 public record UpdateBookCommand(
     String title,
     String isbn,

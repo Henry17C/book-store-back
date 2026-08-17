@@ -2,8 +2,8 @@ package com.example.book_store_back.catalog.application.usecases.book;
 
 import java.util.UUID;
 
-import com.example.book_store_back.catalog.application.dtos.book.BookDetailsResponse;
+import com.example.book_store_back.catalog.application.dtos.book.BookDetailsResult;
 
 public interface GetBookDetailsUseCase {
-    BookDetailsResponse execute(UUID idBook);
+    BookDetailsResult execute(UUID idBook);
 }

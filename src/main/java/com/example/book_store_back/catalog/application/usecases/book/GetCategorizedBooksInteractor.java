@@ -2,8 +2,8 @@ package com.example.book_store_back.catalog.application.usecases.book;
 
 import java.util.List;
 
-import com.example.book_store_back.catalog.application.dtos.book.CatalogBookResponse;
-import com.example.book_store_back.catalog.application.dtos.book.CategorizedBooksQueryRequest;
+import com.example.book_store_back.catalog.application.dtos.book.CatalogBookResult;
+import com.example.book_store_back.catalog.application.dtos.book.CategorizedBooksQuery;
 import com.example.book_store_back.catalog.application.dtos.book.PageResult;
 import com.example.book_store_back.catalog.application.strategies.CategoryCode;
 import com.example.book_store_back.catalog.application.strategies.CategoryStrategy;
@@ -18,7 +18,7 @@ public class GetCategorizedBooksInteractor implements GetCategorizedBooksUseCase
     }
 
     @Override
-    public PageResult<CatalogBookResponse> execute(CategorizedBooksQueryRequest request) {
+    public PageResult<CatalogBookResult> execute(CategorizedBooksQuery request) {
 
         CategoryCode code = request.code();
 
