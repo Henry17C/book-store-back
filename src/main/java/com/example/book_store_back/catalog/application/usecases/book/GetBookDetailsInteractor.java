@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.example.book_store_back.catalog.application.dtos.book.BookDetailsResult;
-import com.example.book_store_back.catalog.application.dtos.book.MoneyResponse;
+import com.example.book_store_back.catalog.application.dtos.book.MoneyResul;
 import com.example.book_store_back.catalog.application.ports.AuthorRepository;
 import com.example.book_store_back.catalog.application.ports.BookRepository;
 import com.example.book_store_back.catalog.application.ports.ReviewRepository;
@@ -38,7 +38,7 @@ public class GetBookDetailsInteractor implements GetBookDetailsUseCase {
         List<Review> reviews = reviewRepository.findByBookId(book.getId());
 
         // 4. Mapear
-        MoneyResponse price = new MoneyResponse(book.getPrice().amount(), book.getPrice().currency());
+        MoneyResul price = new MoneyResul(book.getPrice().amount(), book.getPrice().currency());
 
         List<String> authorNames = authors.stream().map(a -> {
             return a.getName();

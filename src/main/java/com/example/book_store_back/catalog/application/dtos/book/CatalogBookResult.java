@@ -8,7 +8,7 @@ public record CatalogBookResult(
     String title,
     String coverUrl,
     List<String> authorNames,
-    MoneyResponse price,
+    MoneyResul price,
     Double averageRating,
     Boolean inStock
 

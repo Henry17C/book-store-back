@@ -13,7 +13,7 @@ public record BookDetailsResult(
         ///List<ReviewResponse> reviews, futura ampliacion de la funcionalidad
         String bookDescription,
         String bookCoverUrl,
-        MoneyResponse price, //amount and currency
+        MoneyResul price, //amount and currency
         Boolean inStock
 ) {
 

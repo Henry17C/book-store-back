@@ -7,7 +7,7 @@ import java.util.UUID;
 public record UpdateBookCommand(
     String title,
     String isbn,
-    MoneyResponse price,
+    MoneyResul price,
     String format,
     List<UUID> authorIds,
     String languaje,
