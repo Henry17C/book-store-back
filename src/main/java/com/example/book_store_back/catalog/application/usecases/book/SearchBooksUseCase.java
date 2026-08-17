@@ -1,10 +1,10 @@
 package com.example.book_store_back.catalog.application.usecases.book;
 
-import com.example.book_store_back.catalog.application.dtos.book.CatalogBookResponse;
+import com.example.book_store_back.catalog.application.dtos.book.CatalogBookResult;
 import com.example.book_store_back.catalog.application.dtos.book.PageResult;
-import com.example.book_store_back.catalog.application.dtos.book.SearchBooksQueryRequest;
+import com.example.book_store_back.catalog.application.dtos.book.SearchBooksQuery;
 
 public interface SearchBooksUseCase {
-    PageResult<CatalogBookResponse> execute(SearchBooksQueryRequest request);
+    PageResult<CatalogBookResult> execute(SearchBooksQuery request);
 
 }

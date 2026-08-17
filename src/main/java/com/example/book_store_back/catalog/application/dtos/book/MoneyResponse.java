@@ -1,4 +1,4 @@
-package com.example.book_store_back.catalog.application.dtos.money;
+package com.example.book_store_back.catalog.application.dtos.book;
 
 import java.math.BigDecimal;
 

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import com.example.book_store_back.catalog.application.dtos.book.CatalogBookResponse;
+import com.example.book_store_back.catalog.application.dtos.book.CatalogBookResult;
 import com.example.book_store_back.catalog.application.dtos.book.PageResult;
 import com.example.book_store_back.catalog.application.ports.BookQueryGateway;
 import com.example.book_store_back.catalog.application.ports.InventoryGateway;
@@ -21,7 +21,7 @@ public class GetCatalogPageInteractor implements GetCatalogPageUseCase {
     }
 
     @Override
-    public PageResult<CatalogBookResponse> execute(int page, int size) {
+    public PageResult<CatalogBookResult> execute(int page, int size) {
         // 1. Validaciones de seguridad para paginación
         if (page < 0)
             page = 0;
@@ -29,22 +29,22 @@ public class GetCatalogPageInteractor implements GetCatalogPageUseCase {
             size = 20;
         // 2. Pedimos los libros a la BD (trae todo MENOS el stock, que vendrá en null o
         // false) (SERVICIO EXTERNO)
-        PageResult<CatalogBookResponse> resultWithoutStock = bookQueryGateway.getCatalogPage(page, size);
+        PageResult<CatalogBookResult> resultWithoutStock = bookQueryGateway.getCatalogPage(page, size);
 
         // Si la página está vacía, no hacemos nada más
         if (resultWithoutStock.content().isEmpty()) {
             return resultWithoutStock;
         }
         // 3. Extraemos solo los IDs de los libros de esta página (ej. 20 IDs)
-        List<UUID> ids = resultWithoutStock.content().stream().map(CatalogBookResponse::id).toList();
+        List<UUID> ids = resultWithoutStock.content().stream().map(CatalogBookResult::id).toList();
 
         // 4. (SERVICIO EXTERNO)
 
         Map<UUID, Boolean> stockInfo = inventoryGateway.checkStockInBatch(ids);
 
         // 5. Construimos la lista final combinando la info del catálogo con el stock
-        List<CatalogBookResponse> finalContent = resultWithoutStock.content().stream().map(book -> {
-            return new CatalogBookResponse(book.id(), book.title(), book.coverUrl(), book.authorNames(), book.price(),
+        List<CatalogBookResult> finalContent = resultWithoutStock.content().stream().map(book -> {
+            return new CatalogBookResult(book.id(), book.title(), book.coverUrl(), book.authorNames(), book.price(),
                     book.averageRating(),
                     // Obtenemos el stock del mapa, si no está, asumimos false
                     stockInfo.getOrDefault(book.id(), false));

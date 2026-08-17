@@ -1,8 +1,8 @@
 package com.example.book_store_back.catalog.application.usecases.book;
 
-import com.example.book_store_back.catalog.application.dtos.book.CatalogBookResponse;
+import com.example.book_store_back.catalog.application.dtos.book.CatalogBookResult;
 import com.example.book_store_back.catalog.application.dtos.book.PageResult;
-import com.example.book_store_back.catalog.application.dtos.book.SearchBooksQueryRequest;
+import com.example.book_store_back.catalog.application.dtos.book.SearchBooksQuery;
 import com.example.book_store_back.catalog.application.ports.BookQueryGateway;
 
 public class SearchBooksInteractor implements SearchBooksUseCase {
@@ -13,7 +13,7 @@ public class SearchBooksInteractor implements SearchBooksUseCase {
     }
 
     @Override
-    public PageResult<CatalogBookResponse> execute(SearchBooksQueryRequest query) {
+    public PageResult<CatalogBookResult> execute(SearchBooksQuery query) {
         String keyword = query.keyword();
 
         // 1. Validación: Si el usuario manda vacío, retornamos la primera página del

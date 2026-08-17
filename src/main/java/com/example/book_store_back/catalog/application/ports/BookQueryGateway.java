@@ -1,17 +1,17 @@
 package com.example.book_store_back.catalog.application.ports;
 
-import com.example.book_store_back.catalog.application.dtos.book.CatalogBookResponse;
+import com.example.book_store_back.catalog.application.dtos.book.CatalogBookResult;
 import com.example.book_store_back.catalog.application.dtos.book.PageResult;
 
 public interface BookQueryGateway {
-    PageResult<CatalogBookResponse> getCatalogPage(int page, int size);
+    PageResult<CatalogBookResult> getCatalogPage(int page, int size);
 
-    PageResult<CatalogBookResponse> searchByKeyword(String sanitizedKeyword, int page, int size);
+    PageResult<CatalogBookResult> searchByKeyword(String sanitizedKeyword, int page, int size);
 
-    PageResult<CatalogBookResponse> findNewReleases(int page, int size, Boolean onlyInStock); // strategy
+    PageResult<CatalogBookResult> findNewReleases(int page, int size, Boolean onlyInStock); // strategy
 
-    PageResult<CatalogBookResponse> findRecommended(int page, int size, Boolean onlyInStock); // strategy
+    PageResult<CatalogBookResult> findRecommended(int page, int size, Boolean onlyInStock); // strategy
 
-    PageResult<CatalogBookResponse> findBestSellers(int page, int size, Boolean onlyInStock); // strategy
+    PageResult<CatalogBookResult> findBestSellers(int page, int size, Boolean onlyInStock); // strategy
 
 }

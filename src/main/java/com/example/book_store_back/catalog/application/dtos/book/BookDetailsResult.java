@@ -2,9 +2,7 @@ package com.example.book_store_back.catalog.application.dtos.book;
 
 import java.util.List;
 import java.util.UUID;
-
-import com.example.book_store_back.catalog.application.dtos.money.MoneyResponse;
-public record BookDetailsResponse(
+public record BookDetailsResult(
 
         UUID id,
         String title,

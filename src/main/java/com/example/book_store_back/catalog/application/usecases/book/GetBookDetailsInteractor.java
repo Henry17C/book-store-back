@@ -3,8 +3,8 @@ package com.example.book_store_back.catalog.application.usecases.book;
 import java.util.List;
 import java.util.UUID;
 
-import com.example.book_store_back.catalog.application.dtos.book.BookDetailsResponse;
-import com.example.book_store_back.catalog.application.dtos.money.MoneyResponse;
+import com.example.book_store_back.catalog.application.dtos.book.BookDetailsResult;
+import com.example.book_store_back.catalog.application.dtos.book.MoneyResponse;
 import com.example.book_store_back.catalog.application.ports.AuthorRepository;
 import com.example.book_store_back.catalog.application.ports.BookRepository;
 import com.example.book_store_back.catalog.application.ports.ReviewRepository;
@@ -26,7 +26,7 @@ public class GetBookDetailsInteractor implements GetBookDetailsUseCase {
     }
 
     @Override
-    public BookDetailsResponse execute(UUID bookId) {
+    public BookDetailsResult execute(UUID bookId) {
 
         // 1. Buscar el libro
         Book book = bookRepository.findById(bookId)
@@ -52,7 +52,7 @@ public class GetBookDetailsInteractor implements GetBookDetailsUseCase {
                     return a + b;
                 }) / (reviews.isEmpty() ? 1.0 : reviews.size());
 
-        return new BookDetailsResponse(book.getId(), book.getTitle(), book.getIsbn().value(),
+        return new BookDetailsResult(book.getId(), book.getTitle(), book.getIsbn().value(),
                 book.getFormat().value().name(), authorNames, averageRating, book.getBookDescription().value(), "URL",
                 price, false);
         // return null;
