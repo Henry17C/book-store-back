@@ -51,7 +51,11 @@ public class AuthorController {
 
     @GetMapping
     public ResponseEntity<List<AuthorDetailsResponse>> searchAuthorsByName(
-            @RequestParam @NotBlank(message = "El término de búsqueda no puede estar vacío.") @Size(min = 2, message = "Ingresa al menos 2 letras para buscar.") String name) {
+            @RequestParam 
+            @NotBlank(message = "El término de búsqueda no puede estar vacío.")
+            @Size(min = 2, message = "Ingresa al menos 2 letras para buscar.") 
+            String name) {
+                
         SearchAuthorQuery query = new SearchAuthorQuery(name);
 
         List<AuthorDetailsResponse> webResponse = searchAuthorsByNameUseCase.execute(query).stream().map(result -> {
