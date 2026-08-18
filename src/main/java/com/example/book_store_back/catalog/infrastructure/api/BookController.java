@@ -1,9 +1,9 @@
 package com.example.book_store_back.catalog.infrastructure.api;
 
+import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.book_store_back.catalog.application.dtos.book.BookDetailsResult;
 import com.example.book_store_back.catalog.application.dtos.book.CatalogBookResult;
@@ -147,21 +148,18 @@ public class BookController {
         return ResponseEntity.ok(pageResponse);
     }
 
-    //// <><><><><><><><><><><>
     // REGISTRAR UN LIBRO (POST)
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<Void> registerBook(@Valid @RequestBody RegisterBookRequest request) {
-        // UUID newBookId =
-        registerBookUseCase.execute(request.toCommand());
+        UUID newBookId = registerBookUseCase.execute(request.toCommand());
 
-        /*
-         * URI location = ServletUriComponentsBuilder
-         * .fromCurrentRequest()
-         * .path("/{id}")
-         * .buildAndExpand(newBookId)
-         * .toUri();
-         */
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(newBookId)
+                .toUri();
+
+        return ResponseEntity.created(location).build();
     }
 
     // QUITAR RECOMENDACIÓN DE UN LIBRO
@@ -231,10 +229,9 @@ public class BookController {
         return ResponseEntity.noContent().build();
     }
 
-
     // RECOMENDAR UN LIBRO
     // Ruta: PUT /books/{id}/recommend
-    @PutMapping("/{id/recommend")
+    @PutMapping("/{id}/recommend")
     public ResponseEntity<Void> recommendBook(@PathVariable UUID id) {
         recommendBookUseCase.execute(id);
         return ResponseEntity.noContent().build();
