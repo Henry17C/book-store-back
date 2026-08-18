@@ -25,7 +25,7 @@ public class RegisterBookInteractor implements RegisterBookUseCase {
     }
 
     @Override
-    public void execute(RegisterBookCommand command) {
+    public UUID execute(RegisterBookCommand command) {
         // 1. Validar que el ISBN no exista ya en el sistema
         if (bookRepository.existsByIsbn(command.isbn())) {
             throw new IllegalArgumentException("Ya existe un libro registrado con el ISBN: " + command.isbn());
@@ -55,6 +55,7 @@ public class RegisterBookInteractor implements RegisterBookUseCase {
         // 3. Guardar (INSERT)
         Book book = Book.register(id, title, isbn, language, price, format, releaseDate, bookDescription, coverUrl , authorIds);
         bookRepository.save(book);
+        return id;
     }
 
 }
