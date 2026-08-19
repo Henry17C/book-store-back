@@ -1,12 +1,14 @@
 package com.example.book_store_back.catalog.infrastructure.persistence.mappers;
 
 
+import org.springframework.stereotype.Component;
+
 import com.example.book_store_back.catalog.domain.Book;
 import com.example.book_store_back.catalog.domain.BookDescription;
+import com.example.book_store_back.catalog.domain.BookFormat;
 import com.example.book_store_back.catalog.domain.Isbn;
 import com.example.book_store_back.catalog.domain.Money;
 import com.example.book_store_back.catalog.infrastructure.persistence.entities.BookEntity;
-import org.springframework.stereotype.Component;
 
 @Component
 public class BookMapper {
@@ -18,11 +20,11 @@ public class BookMapper {
         Money money = new Money(entity.getPriceAmount(), entity.getPriceCurrency());
         BookDescription description = new BookDescription(entity.getSypnosis());
         Isbn isbn = new Isbn(entity.getIsbnValue());
-        // BookFormat format= new BookFormat(entity.getFormat());
+        BookFormat format= new BookFormat(entity.getFormat());
         return new Book(entity.getId(), entity.getTitle(), isbn, entity.getLanguage(), money,
-                entity.getFormat(), entity.getReleaseDate(), description, entity.getCoverUrl(),
-                entity.getIsRecomended(), entity.getStatus(), entity.getAuthorIds(), entity.getHasStock(),
-                entity.getAverageRating(), entity.getTotalReview());
+                format, entity.getReleaseDate(), description, entity.getCoverUrl(),
+                entity.getIsRecommended(), entity.getStatus(), entity.getAuthorIds(), entity.getHasStock(),
+                entity.getAverageRating(), entity.getTotalReviews());
 
     }
 
@@ -37,7 +39,7 @@ public class BookMapper {
                 book.getLanguage(), // 4. language
                 book.getPrice().amount(), // 5. priceAmount
                 book.getPrice().currency(), // 6. priceCurrency
-                book.getFormat(), // 7. format
+                book.getFormat().value(), // 7. format
                 book.getReleaseDate(), // 8. releaseDate
                 book.getBookDescription().value(), // 9. sypnosis
                 book.getCoverUrl(), // 10. coverUrl

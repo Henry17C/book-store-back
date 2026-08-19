@@ -57,7 +57,7 @@ public class BookEntity {
     // 7
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private BookFormat format;
+    private BookFormat.FormatType format;
 
     // 8
     @Column(name = "release_date", nullable = false)
@@ -73,7 +73,7 @@ public class BookEntity {
 
     // 11
     @Column(name = "is_recommended", nullable = false)
-    private Boolean isRecomended;
+    private Boolean isRecommended;
 
     // 12
     @Enumerated(EnumType.STRING)
@@ -99,5 +99,5 @@ public class BookEntity {
 
     // 16
     @Column(name = "total_reviews")
-    private Integer totalReview;
+    private Integer totalReviews;
 }
