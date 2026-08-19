@@ -43,7 +43,7 @@ public class Book {
         this.status = Objects.requireNonNull(status, "El estado no puede ser nulo.");
         this.bookDescription = Objects.requireNonNull(bookDescription, "La descripción no puede ser nula.");
         this.hasStock = Objects.requireNonNull(hasStock, "El estado de stock no puede ser nulo.");
-        this.coverUrl = Objects.requireNonNull(coverUrl, "La portada del libro no puede ser nula.");
+        this.coverUrl = coverUrl;
         this.averageRating = averageRating != null ? averageRating : 0.0;
         this.totalReviews = totalReviews != null ? totalReviews : 0;
     }
