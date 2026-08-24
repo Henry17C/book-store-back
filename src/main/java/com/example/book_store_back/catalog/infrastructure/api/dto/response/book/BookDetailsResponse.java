@@ -10,8 +10,8 @@ public record BookDetailsResponse(
     String format,
     List<String> authorNames,
     Double averageRating,
-    String bookDescription,
-    String booCoverUrl,
+    String description,
+    String coverUrl,
     MoneyResponse price,
     Boolean inStock
 ) {

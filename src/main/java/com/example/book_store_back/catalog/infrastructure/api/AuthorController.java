@@ -43,7 +43,7 @@ public class AuthorController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> regiterAuthor(@RequestBody RegisterAuthorRequest request) {
+    public ResponseEntity<Void> registerAuthor(@RequestBody RegisterAuthorRequest request) {
         registerAuthorUseCase.execute(request.toCommand());
         return ResponseEntity.status(HttpStatus.CREATED).build();
 
