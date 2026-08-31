@@ -14,7 +14,10 @@ import com.example.book_store_back.catalog.application.ports.BookRepository;
 import com.example.book_store_back.catalog.application.ports.DomainEventPublisher;
 import com.example.book_store_back.catalog.application.ports.InventoryGateway;
 import com.example.book_store_back.catalog.application.ports.ReviewRepository;
+import com.example.book_store_back.catalog.application.strategies.BestSellersStrategy;
 import com.example.book_store_back.catalog.application.strategies.CategoryStrategy;
+import com.example.book_store_back.catalog.application.strategies.NewReleasesStrategy;
+import com.example.book_store_back.catalog.application.strategies.RecommendedStrategy;
 import com.example.book_store_back.catalog.application.usecases.author.RegisterAuthorInteractor;
 import com.example.book_store_back.catalog.application.usecases.author.RegisterAuthorUseCase;
 import com.example.book_store_back.catalog.application.usecases.author.SearchAuthorsByNameInteractor;
@@ -90,7 +93,17 @@ public class CatalogConfig {
     }
 
     @Bean
-    public GetCategorizedBooksUseCase getCategorizedBooksUseCase(List<CategoryStrategy> strategies) {
+    public GetCategorizedBooksUseCase getCategorizedBooksUseCase(BookQueryGateway bookQueryGateway) {
+        
+        // 1. Instanciar las estrategias manualmente
+        List<CategoryStrategy> strategies = List.of(
+                new BestSellersStrategy(bookQueryGateway)
+                // A medida que se creen más, agregar aquí
+                , new NewReleasesStrategy(bookQueryGateway)
+                , new RecommendedStrategy(bookQueryGateway)
+        );
+
+        // 2. Lista llena al Interactor
         return new GetCategorizedBooksInteractor(strategies);
     }
 
