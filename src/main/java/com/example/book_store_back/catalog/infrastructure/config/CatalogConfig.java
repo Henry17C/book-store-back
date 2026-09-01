@@ -26,6 +26,8 @@ import com.example.book_store_back.catalog.application.usecases.author.UpdateAut
 import com.example.book_store_back.catalog.application.usecases.author.UpdateAuthorUseCase;
 import com.example.book_store_back.catalog.application.usecases.book.ArchiveBookInteractor;
 import com.example.book_store_back.catalog.application.usecases.book.ArchiveBookUseCase;
+import com.example.book_store_back.catalog.application.usecases.book.GetBookDetailsByIsbnInteractor;
+import com.example.book_store_back.catalog.application.usecases.book.GetBookDetailsByIsbnUseCase;
 import com.example.book_store_back.catalog.application.usecases.book.GetBookDetailsInteractor;
 import com.example.book_store_back.catalog.application.usecases.book.GetBookDetailsUseCase;
 import com.example.book_store_back.catalog.application.usecases.book.GetCatalogPageInteractor;
@@ -135,6 +137,13 @@ public class CatalogConfig {
     @Bean
     public UpdateBookUseCase updateBookUseCase(BookRepository bookRepository, AuthorRepository authorRepository) {
         return new UpdateBookInteractor(bookRepository, authorRepository);
+    }
+
+    @Bean
+    public GetBookDetailsByIsbnUseCase getBookDetailsByIsbnUseCase (BookRepository bookRepository,
+            AuthorRepository authorRepository,
+            ReviewRepository reviewRepository) {
+        return new GetBookDetailsByIsbnInteractor(bookRepository, authorRepository, reviewRepository);
     }
 
     // ***** REVIEW *****

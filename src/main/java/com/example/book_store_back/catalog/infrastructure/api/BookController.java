@@ -23,6 +23,7 @@ import com.example.book_store_back.catalog.application.dtos.book.PageResult;
 import com.example.book_store_back.catalog.application.dtos.book.SearchBooksQuery;
 import com.example.book_store_back.catalog.application.strategies.CategoryCode;
 import com.example.book_store_back.catalog.application.usecases.book.ArchiveBookUseCase;
+import com.example.book_store_back.catalog.application.usecases.book.GetBookDetailsByIsbnUseCase;
 import com.example.book_store_back.catalog.application.usecases.book.GetBookDetailsUseCase;
 import com.example.book_store_back.catalog.application.usecases.book.GetCatalogPageUseCase;
 import com.example.book_store_back.catalog.application.usecases.book.GetCategorizedBooksUseCase;
@@ -55,6 +56,7 @@ public class BookController {
     private final SearchBooksUseCase searchBooksUseCase;
     private final UnarchiveBookUseCase unarchiveBookUseCase;
     private final UpdateBookUseCase updateBookUseCase;
+    private final GetBookDetailsByIsbnUseCase getBookDetailsByIsbn;
 
     public BookController(ArchiveBookUseCase archiveBookUseCase,
             GetBookDetailsUseCase getBookDetailsUseCase,
@@ -65,7 +67,8 @@ public class BookController {
             RemoveBookRecommendationUseCase removeBookRecommendationUseCase,
             SearchBooksUseCase searchBooksUseCase,
             UnarchiveBookUseCase unarchiveBookUseCase,
-            UpdateBookUseCase updateBookUseCase) {
+            UpdateBookUseCase updateBookUseCase,
+            GetBookDetailsByIsbnUseCase getBookDetailsByIsbn) {
 
         this.archiveBookUseCase = archiveBookUseCase;
         this.getBookDetailsUseCase = getBookDetailsUseCase;
@@ -77,10 +80,26 @@ public class BookController {
         this.searchBooksUseCase = searchBooksUseCase;
         this.unarchiveBookUseCase = unarchiveBookUseCase;
         this.updateBookUseCase = updateBookUseCase;
+        this.getBookDetailsByIsbn = getBookDetailsByIsbn;
     }
 
     // OBTENER DETALLES DE UN LIBRO
-    // Ruta: PUT /books/{id}
+
+    // Ruta: GET /books/isbn/{isbn}
+    @GetMapping("/isbn/{isbn}")
+    public ResponseEntity<BookDetailsResponse> getBookDetailsByIsbn(@PathVariable String isbn) {
+        BookDetailsResult bookresult = getBookDetailsByIsbn.execute(isbn);
+        MoneyResponse moneyResponse = new MoneyResponse(bookresult.price().amount(), bookresult.price().currency());
+
+        BookDetailsResponse bookDetailsResponse = new BookDetailsResponse(
+                bookresult.id(), bookresult.title(), bookresult.isnb(), bookresult.format(),
+                bookresult.authorNames(), bookresult.averageRating(), bookresult.bookDescription(),
+                bookresult.bookCoverUrl(), moneyResponse, bookresult.inStock());
+
+        return ResponseEntity.ok(bookDetailsResponse);
+    }
+
+    // Ruta: GET /books/{id}
     @GetMapping("/{id}")
     public ResponseEntity<BookDetailsResponse> getBookDetails(@PathVariable UUID id) {
         BookDetailsResult bookDetailsResult = getBookDetailsUseCase.execute(id);

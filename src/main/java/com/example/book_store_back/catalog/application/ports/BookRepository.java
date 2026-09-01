@@ -12,5 +12,6 @@ public interface BookRepository {
     public void save(Book book);
     boolean existsByIsbn(String isbn);
     public Boolean existsById(UUID id);
+    public Book findByIsbn(String isbn);
     
 }

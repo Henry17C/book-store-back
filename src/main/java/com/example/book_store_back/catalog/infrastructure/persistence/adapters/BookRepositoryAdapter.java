@@ -52,4 +52,12 @@ public class BookRepositoryAdapter implements BookRepository {
         return jpaRepository.existsById(id);
     }
 
+    @Override
+    public Book findByIsbn(String isbn){
+
+        
+        return mapper.toDomain(jpaRepository.findByIsbnValue(isbn));
+    }
+
+
 }
