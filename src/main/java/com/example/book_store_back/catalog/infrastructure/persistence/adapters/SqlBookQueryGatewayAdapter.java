@@ -108,7 +108,7 @@ public class SqlBookQueryGatewayAdapter implements BookQueryGateway {
                                 new MoneyResul(entity.getPriceAmount(),
                                                 entity.getPriceCurrency()),
                                 entity.getAverageRating(),
-                                entity.getHasStock());
+                                entity.getHasStock(), entity.getIsbnValue());
 
         }
 }

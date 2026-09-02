@@ -129,7 +129,7 @@ public class BookController {
 
         List<CatalogBookResponse> content = pageResult.content().stream().map(c -> {
             return new CatalogBookResponse(c.id(), c.title(), c.coverUrl(), c.authorNames(),
-                    new MoneyResponse(c.price().amount(), c.price().currency()), c.averageRating(), c.inStock());
+                    new MoneyResponse(c.price().amount(), c.price().currency()), c.averageRating(), c.inStock(), c.isnb());
         }).toList();
 
         int currentPage = pageResult.currentPage();
@@ -155,7 +155,7 @@ public class BookController {
 
         List<CatalogBookResponse> content = pageResult.content().stream().map(c -> {
             return new CatalogBookResponse(c.id(), c.title(), c.coverUrl(), c.authorNames(),
-                    new MoneyResponse(c.price().amount(), c.price().currency()), c.averageRating(), c.inStock());
+                    new MoneyResponse(c.price().amount(), c.price().currency()), c.averageRating(), c.inStock(), c.isnb());
         }).toList();
         int currentPage = pageResult.currentPage();
         int totalPages = pageResult.totalPages();
@@ -203,7 +203,7 @@ public class BookController {
 
         List<CatalogBookResponse> content = result.content().stream().map(c -> {
             return new CatalogBookResponse(c.id(), c.title(), c.coverUrl(), c.authorNames(),
-                    new MoneyResponse(c.price().amount(), c.price().currency()), c.averageRating(), c.inStock());
+                    new MoneyResponse(c.price().amount(), c.price().currency()), c.averageRating(), c.inStock(), c.isnb());
         }).toList();
         int currentPage = result.currentPage();
         int totalPages = result.totalPages();

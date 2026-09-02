@@ -10,7 +10,8 @@ public record CatalogBookResult(
     List<String> authorNames,
     MoneyResul price,
     Double averageRating,
-    Boolean inStock
+    Boolean inStock,
+    String isnb
 
 ) {
 

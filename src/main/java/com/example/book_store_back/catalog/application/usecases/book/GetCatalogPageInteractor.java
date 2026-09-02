@@ -47,7 +47,7 @@ public class GetCatalogPageInteractor implements GetCatalogPageUseCase {
             return new CatalogBookResult(book.id(), book.title(), book.coverUrl(), book.authorNames(), book.price(),
                     book.averageRating(),
                     // Obtenemos el stock del mapa, si no está, asumimos false
-                    stockInfo.getOrDefault(book.id(), false));
+                    stockInfo.getOrDefault(book.id(), false), book.isnb());
         }).toList();
 
         // 6. Retornamos la página completa y lista para el frontend

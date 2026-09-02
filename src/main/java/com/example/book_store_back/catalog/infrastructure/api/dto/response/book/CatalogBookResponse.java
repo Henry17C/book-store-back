@@ -9,7 +9,8 @@ public record CatalogBookResponse(
     List<String> authorNames,
     MoneyResponse price,
     Double averageRating,
-    Boolean inStock
+    Boolean inStock,
+    String isbn
 ) {
     
 }
