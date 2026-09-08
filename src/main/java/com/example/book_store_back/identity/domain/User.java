@@ -1,5 +1,7 @@
 package com.example.book_store_back.identity.domain;
 
+import java.util.Objects;
+
 public class User {
 
     private UserId id;
@@ -13,13 +15,13 @@ public class User {
     private User(UserId id, Email email, FullName fullName, Password password,
             UserRole role, UserStatus status, AuthProvider provider) {
 
-        this.id = id;
-        this.email = email;
-        this.fullName = fullName;
+        this.id = Objects.requireNonNull(id, "El id del usuario no puede ser nulo");
+        this.email = Objects.requireNonNull(email, "El email del usuario no puede ser nulo.");
+        this.fullName = Objects.requireNonNull(fullName, "El nombre del usuario no puede ser nulo.");
         this.password = password;
-        this.role = role;
-        this.status = status;
-        this.provider = provider;
+        this.role = Objects.requireNonNull(role, "El rol del usuario no puede ser nulo.");
+        this.status = Objects.requireNonNull(status, "El estado del usuario no puede ser nulo.");
+        this.provider = Objects.requireNonNull(provider, "El proveedor de registro de usuario no puede ser nulo.");
 
     }
 
