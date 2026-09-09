@@ -11,8 +11,9 @@ public class User {
     private UserRole role;
     private UserStatus status;
     private AuthProvider provider;
+    private ProfilePictureUrl picture;
 
-    private User(UserId id, Email email, FullName fullName, Password password,
+    private User(UserId id, Email email, FullName fullName, Password password, ProfilePictureUrl picture,
             UserRole role, UserStatus status, AuthProvider provider) {
 
         this.id = Objects.requireNonNull(id, "El id del usuario no puede ser nulo");
@@ -22,29 +23,30 @@ public class User {
         this.role = Objects.requireNonNull(role, "El rol del usuario no puede ser nulo.");
         this.status = Objects.requireNonNull(status, "El estado del usuario no puede ser nulo.");
         this.provider = Objects.requireNonNull(provider, "El proveedor de registro de usuario no puede ser nulo.");
-
+        this.picture = picture;
     }
 
     // Factory
-    public static User registerWithGoogle(UserId id, Email email, FullName fullName) {
-        return new User(id, email, fullName, null, UserRole.CUSTOMER, UserStatus.ACTIVE, AuthProvider.GOOGLE);
+    public static User registerWithGoogle(UserId id, Email email, FullName fullName, ProfilePictureUrl picture) {
+        return new User(id, email, fullName, null, picture, UserRole.CUSTOMER, UserStatus.ACTIVE, AuthProvider.GOOGLE);
     }
 
-    public static User registerWithEmail(UserId id, Email email, FullName fullName, Password password) {
-        return new User(id, email, fullName, password, UserRole.CUSTOMER, UserStatus.PENDING_VERIFICATION,
+    public static User registerWithEmail(UserId id, Email email, FullName fullName,
+            Password password) {
+        return new User(id, email, fullName, password, null, UserRole.CUSTOMER, UserStatus.PENDING_VERIFICATION,
                 AuthProvider.LOCAL);
     }
 
     // Validación de la logica de negocio
-    public void suspendAccount (){
-        this.status= UserStatus.SUSPENDED;
+    public void suspendAccount() {
+        this.status = UserStatus.SUSPENDED;
     }
 
-    public void promoteToAdmin(){
+    public void promoteToAdmin() {
         if (this.status == UserStatus.SUSPENDED) {
-        throw new IllegalStateException("No se puede promover a un usuario suspendido");
-    }
-        this.role= UserRole.ADMIN;
+            throw new IllegalStateException("No se puede promover a un usuario suspendido");
+        }
+        this.role = UserRole.ADMIN;
     }
 
     public void verifyEmail() {
@@ -54,33 +56,37 @@ public class User {
         this.status = UserStatus.ACTIVE;
     }
 
-    //Getters
-    public UserId getUserId(){
+    // Getters
+    public UserId getUserId() {
         return this.id;
     }
 
-    public Email getEmail(){
-        return  this.email;
+    public Email getEmail() {
+        return this.email;
     }
 
-    public FullName getFullName(){
+    public FullName getFullName() {
         return this.fullName;
     }
 
-    public Password getPassword(){
+    public Password getPassword() {
         return this.password;
     }
 
-    public UserRole getUserRole(){
+    public UserRole getUserRole() {
         return this.role;
     }
 
-    public UserStatus getUserStatus(){
+    public UserStatus getUserStatus() {
         return this.status;
     }
 
-    public AuthProvider getAuthProvider(){
+    public AuthProvider getAuthProvider() {
         return this.provider;
+    }
+
+    public ProfilePictureUrl getProfilePictureUrl() {
+        return this.picture;
     }
 
 }
