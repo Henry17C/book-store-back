@@ -37,6 +37,12 @@ public class User {
                 AuthProvider.LOCAL);
     }
 
+    public static User reconstitute(UserId id, Email email, FullName fullName,
+                                Password password, ProfilePictureUrl picture,
+                                UserRole role, UserStatus status, AuthProvider provider) {
+    return new User(id, email, fullName, password, picture, role, status, provider);
+}
+
     // Validación de la logica de negocio
     public void suspendAccount() {
         this.status = UserStatus.SUSPENDED;
