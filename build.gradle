@@ -33,6 +33,10 @@ dependencies {
 	implementation 'org.flywaydb:flyway-core:13.3.0'
 	runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
 	implementation 'org.flywaydb:flyway-sqlserver:13.3.0'
+	
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
 }
 
 tasks.named('test') {
