@@ -7,21 +7,26 @@ import java.util.UUID;
 import com.example.book_store_back.catalog.application.dtos.book.RegisterBookCommand;
 import com.example.book_store_back.catalog.application.ports.AuthorRepository;
 import com.example.book_store_back.catalog.application.ports.BookRepository;
+import com.example.book_store_back.catalog.application.ports.DomainEventPublisher;
 import com.example.book_store_back.catalog.domain.Book;
 import com.example.book_store_back.catalog.domain.BookDescription;
 import com.example.book_store_back.catalog.domain.BookFormat;
 import com.example.book_store_back.catalog.domain.Isbn;
 import com.example.book_store_back.catalog.domain.Language;
 import com.example.book_store_back.catalog.domain.Money;
+import com.example.book_store_back.catalog.domain.events.BookCreatedEvent;
 
 public class RegisterBookInteractor implements RegisterBookUseCase {
 
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
+    private final DomainEventPublisher publisher;
 
-    public RegisterBookInteractor(BookRepository bookRepository, AuthorRepository authorRepository) {
+    public RegisterBookInteractor(BookRepository bookRepository, AuthorRepository authorRepository,
+            DomainEventPublisher publisher) {
         this.bookRepository = bookRepository;
         this.authorRepository = authorRepository;
+        this.publisher = publisher;
     }
 
     @Override
@@ -50,11 +55,17 @@ public class RegisterBookInteractor implements RegisterBookUseCase {
         Language language = Language.valueOf(command.language().toUpperCase());
         LocalDateTime releaseDate = command.releaseDate();
         BookDescription bookDescription = new BookDescription(command.description());
-        String coverUrl= null; //TODO: S3
+        String coverUrl = null; // TODO: S3
 
         // 3. Guardar (INSERT)
-        Book book = Book.register(id, title, isbn, language, price, format, releaseDate, bookDescription, coverUrl , authorIds);
+        Book book = Book.register(id, title, isbn, language, price, format, releaseDate, bookDescription, coverUrl,
+                authorIds);
         bookRepository.save(book);
+
+        // 4. Publicar el evento para que el modulo inventory cree un registro inicial mediante un listener.
+        BookCreatedEvent event = new BookCreatedEvent(id.toString(), title);
+        publisher.publish(event);
+
         return id;
     }
 

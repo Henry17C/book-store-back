@@ -115,8 +115,8 @@ public class CatalogConfig {
     }
 
     @Bean
-    public RegisterBookUseCase registerBookUseCase(BookRepository bookRepository, AuthorRepository authorRepository) {
-        return new RegisterBookInteractor(bookRepository, authorRepository); // <-- Falta de ';' corregida
+    public RegisterBookUseCase registerBookUseCase(BookRepository bookRepository, AuthorRepository authorRepository, DomainEventPublisher domainEventPublisher) {
+        return new RegisterBookInteractor(bookRepository, authorRepository, domainEventPublisher);
     }
 
     @Bean
@@ -154,7 +154,7 @@ public class CatalogConfig {
 
     @Bean
     public UpdateReviewUseCase updateReviewUseCase(ReviewRepository reviewRepository, DomainEventPublisher domainEventPublisher) {
-        return new UpdateReviewInteractor(reviewRepository, domainEventPublisher); // <-- Falta de ';' corregida
+        return new UpdateReviewInteractor(reviewRepository, domainEventPublisher);
     }
 
     @Bean
