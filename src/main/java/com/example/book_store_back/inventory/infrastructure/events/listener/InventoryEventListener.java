@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
-import com.example.book_store_back.inventory.application.dtos.CreateInventoryItemCommand;
+import com.example.book_store_back.inventory.application.dtos.inventory.CreateInventoryItemCommand;
 import com.example.book_store_back.inventory.application.usescases.CreateInventoryItemUseCase;
 import com.example.book_store_back.inventory.domain.ProductId;
 import com.example.book_store_back.inventory.domain.Quantity;

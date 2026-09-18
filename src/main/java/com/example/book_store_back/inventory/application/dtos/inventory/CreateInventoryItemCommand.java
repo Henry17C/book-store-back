@@ -1,11 +1,10 @@
-package com.example.book_store_back.inventory.application.dtos;
+package com.example.book_store_back.inventory.application.dtos.inventory;
 
 import com.example.book_store_back.inventory.domain.ProductId;
 import com.example.book_store_back.inventory.domain.Quantity;
-
-public record RemoveStockCommand(
+public record CreateInventoryItemCommand(
     ProductId productId,
-    Quantity quantity
+    Quantity initialStock
 ) {
     
 }

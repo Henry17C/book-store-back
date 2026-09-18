@@ -2,7 +2,7 @@ package com.example.book_store_back.inventory.application.usescases;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.book_store_back.inventory.application.dtos.AddStockCommand;
+import com.example.book_store_back.inventory.application.dtos.stock.AddStockCommand;
 import com.example.book_store_back.inventory.application.ports.InventoryRepository;
 import com.example.book_store_back.inventory.domain.InventoryItem;
 import com.example.book_store_back.inventory.domain.ProductId;
