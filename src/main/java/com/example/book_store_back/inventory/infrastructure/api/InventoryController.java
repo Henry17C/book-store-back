@@ -73,8 +73,14 @@ public class InventoryController {
         PageResult<InventoryItemResult> pageResult = getInventoryItemsPageUseCase.execute(page, size);
 
         List<InventoryItemResponse> contentResponse = pageResult.content().stream().map(c -> {
-            return new InventoryItemResponse(c.id(), c.productId(), c.stock());
-        }).toList();
+            return new InventoryItemResponse(
+            c.id(),
+            c.productId(),
+            c.title(),
+            c.isbn(),
+            c.stock()
+        );
+    }).toList();
 
         PageResult<InventoryItemResponse> response = new PageResult<>(contentResponse, pageResult.currentPage(),
                 pageResult.totalPages(), pageResult.totalElements());
