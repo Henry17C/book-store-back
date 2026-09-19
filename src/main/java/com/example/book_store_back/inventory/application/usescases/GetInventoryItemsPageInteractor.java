@@ -7,11 +7,11 @@ import com.example.book_store_back.inventory.application.dtos.inventory.PageResu
 import com.example.book_store_back.inventory.application.ports.InventoryRepository;
 import com.example.book_store_back.inventory.domain.InventoryItem;
 
-public class GetInventoryItemsInteractor implements GetInventoryItemsPageUseCase {
+public class GetInventoryItemsPageInteractor implements GetInventoryItemsPageUseCase {
 
     private final InventoryRepository inventoryRepository;
 
-    public GetInventoryItemsInteractor(InventoryRepository inventoryRepository) {
+    public GetInventoryItemsPageInteractor(InventoryRepository inventoryRepository) {
         this.inventoryRepository = inventoryRepository;
     }
 
