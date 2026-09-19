@@ -1,5 +1,6 @@
 package com.example.book_store_back.inventory.infrastructure.persistence.mappers;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.example.book_store_back.inventory.domain.InventoryItem;
@@ -21,7 +22,7 @@ public class InventoryMapper {
             .map(StockMovementMapper::toDomain)
             .toList();
 
-        return new InventoryItem(id, productId, stock, movements);
+        return new InventoryItem(id, productId,entity.getTitle(), entity.getIsbn(), entity.getCreatedAt(), stock, movements);
     }
 
     public static InventoryItemEntity toEntity(InventoryItem domain) {
@@ -29,6 +30,9 @@ public class InventoryMapper {
         inventoryEntity.setId(domain.getId().value());
         inventoryEntity.setProductId(domain.getProductId().value());
         inventoryEntity.setStock(domain.getStock().value());
+        inventoryEntity.setTitle(domain.getTitle());
+        inventoryEntity.setIsbn(domain.getIsbn());
+        inventoryEntity.setCreatedAt(domain.getCreatedAt());
 
         // Mapear y asegurar la relación bidireccional con el padre usando setters
         List<StockMovementEntity> movementEntities = domain.getMovements().stream()

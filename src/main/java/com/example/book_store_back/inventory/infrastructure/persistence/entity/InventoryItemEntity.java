@@ -1,5 +1,6 @@
 package com.example.book_store_back.inventory.infrastructure.persistence.entity;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +30,15 @@ public class InventoryItemEntity {
 
     @Column(name = "product_id", length = 36, nullable = false, unique = true)
     private String productId;
+
+    @Column(name = "title", length = 36, nullable = false, unique = true)
+    private String title;
+
+    @Column(name = "isbn", length = 36, nullable = false, unique = true)
+    private String isbn;
+
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
 
     @Column(name = "stock", nullable = false)
     private Integer stock;

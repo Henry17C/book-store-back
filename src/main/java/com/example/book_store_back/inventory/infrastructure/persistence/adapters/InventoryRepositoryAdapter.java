@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import com.example.book_store_back.inventory.application.dtos.inventory.PageResult;
@@ -47,7 +48,7 @@ public class InventoryRepositoryAdapter implements InventoryRepository {
     @Override
     public PageResult<InventoryItem> findAllPaged(int page, int size) {
 
-        Pageable pageable = PageRequest.of(page, size /*, Sort.by("createdAt").descending()*/);
+        Pageable pageable = PageRequest.of(page, size , Sort.by("createdAt").descending());
         Page<InventoryItemEntity> entityPage = inventoryRepositorySpring.findAll(pageable);
 
         List<InventoryItem> items = entityPage.getContent().stream()
