@@ -162,4 +162,8 @@ public class Order {
         return Collections.unmodifiableList(this.items);
     }
 
+    public ShippingCost getShippingCost(){
+        return this.shippingCost;
+    }
+
 }

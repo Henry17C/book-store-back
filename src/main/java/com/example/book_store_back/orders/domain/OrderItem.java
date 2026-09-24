@@ -19,7 +19,7 @@ public class OrderItem {
 
     // Comportamiento del dominio: calcular el subtotal
     public BigDecimal calculateSubtotal() {
-        return unitPrice.amount().multiply(quantity.value());
+        return unitPrice.amount().multiply(BigDecimal.valueOf(quantity.value()));
     }
 
     // Getters

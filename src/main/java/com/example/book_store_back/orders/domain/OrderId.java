@@ -2,11 +2,13 @@ package com.example.book_store_back.orders.domain;
 
 import java.util.Objects;
 import java.util.UUID;
-public record OrderId(String value) {
+
+public record OrderId(UUID value) {
     public OrderId {
-        Objects.requireNonNull(value, "El id del item no puede ser nulo.");
+        Objects.requireNonNull(value, "El id de la orden no puede ser nulo.");
     }
+
     public static OrderId generate() {
-        return new OrderId(UUID.randomUUID().toString());
+        return new OrderId(UUID.randomUUID());
     }
 }
