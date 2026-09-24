@@ -23,7 +23,7 @@ public class Order {
         this.id = Objects.requireNonNull(id, "El id de la order no puder ser nulo.");
         this.customerId = Objects.requireNonNull(customerId, "El id del cliente no puede ser nulo.");
         this.createdAt = Objects.requireNonNull(createdAt, "La fecha de creación no puede ser nula.");
-        this.shippingCost = Objects.requireNonNull(shippingCost, "El costo de envío no puede ser nulo.");
+        this.shippingCost = shippingCost;
         this.status = Objects.requireNonNull(status, "El estado de la orden no puede ser nulo.");
         this.items = new ArrayList<>(Objects.requireNonNull(items, "La lista de items no puede ser nula."));
 
@@ -35,7 +35,10 @@ public class Order {
             throw new IllegalArgumentException(
                     "La dirección de envío es obligatoria porque el pedido contiene libros físicos.");
         }
-
+        if (requiresShipping && shippingCost == null) {
+            throw new IllegalArgumentException(
+                    "El costo de envío es obligatorio porque el pedido contiene libros físicos.");
+        }
         // Si no requiere envío, shippingAddress puede ser null
         this.shippingAddress = shippingAddress;
     }
@@ -53,6 +56,13 @@ public class Order {
         if (items == null || items.isEmpty()) {
             throw new IllegalArgumentException("No se puede crear una orden sin items.");
         }
+
+        // Validar que no haya libros duplicados en la lista
+        long uniqueBooksCount = items.stream().map(OrderItem::getBookId).distinct().count();
+        if (uniqueBooksCount != items.size()) {
+            throw new IllegalArgumentException(
+                    "El pedido contiene libros duplicados. Deben agruparse en una sola cantidad.");
+        }
         return new Order(OrderId.generate(), customerId, shippingAddress, shippingCost, LocalDateTime.now(),
                 OrderStatus.CREATED,
                 items);
@@ -63,9 +73,18 @@ public class Order {
             throw new IllegalStateException("No se pueden añadir artículos a un pedido que ya está " + this.status);
         }
 
+        // Proteger la invariante de duplicados al mutar la orden
+        boolean alreadyExists = this.items.stream()
+                .anyMatch(item -> item.getBookId().equals(bookId));
+
+        if (alreadyExists) {
+            throw new IllegalArgumentException("El libro ya existe en el pedido. Actualice la cantidad en su lugar.");
+        }
+
         // Proteger la regla de negocio al añadir nuevos elementos dinámicamente
         if (format.requiresShipping() && this.shippingAddress == null) {
-            throw new IllegalStateException("No se puede agregar un libro físico a un pedido que no tiene dirección de envío configurada.");
+            throw new IllegalStateException(
+                    "No se puede agregar un libro físico a un pedido que no tiene dirección de envío configurada.");
         }
 
         this.items.add(new OrderItem(bookId, format, unitPrice, quantity));
@@ -162,7 +181,7 @@ public class Order {
         return Collections.unmodifiableList(this.items);
     }
 
-    public ShippingCost getShippingCost(){
+    public ShippingCost getShippingCost() {
         return this.shippingCost;
     }
 
