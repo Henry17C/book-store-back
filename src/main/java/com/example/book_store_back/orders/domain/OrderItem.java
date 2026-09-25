@@ -7,7 +7,7 @@ import java.util.Objects;
 public class OrderItem {
     private final BookId bookId;
     private final PriceSnapshot unitPrice;
-    private final Quantity quantity;
+    private Quantity quantity;
     private final ItemFormat format;
 
     public OrderItem(BookId bookId, ItemFormat format, PriceSnapshot unitPrice, Quantity quantity) {
@@ -17,9 +17,20 @@ public class OrderItem {
         this.format = Objects.requireNonNull(format, "El formato no puede ser nulo.");
     }
 
-    // Comportamiento del dominio: calcular el subtotal
     public BigDecimal calculateSubtotal() {
         return unitPrice.amount().multiply(BigDecimal.valueOf(quantity.value()));
+    }
+
+    public void increaseQuantity(Quantity extra) {
+        this.quantity = new Quantity(this.quantity.value() + extra.value());
+    }
+
+    public void decreaseQuantity(Quantity reduction) {
+        int newValue = this.quantity.value() - reduction.value();
+        if (newValue < 0) {
+            throw new IllegalArgumentException("La cantidad no puede ser menor que 0");
+        }
+        this.quantity = new Quantity(newValue);
     }
 
     // Getters
@@ -34,6 +45,7 @@ public class OrderItem {
     public Quantity getQuantity() {
         return this.quantity;
     }
+
     public ItemFormat getItemFormat() {
         return this.format;
     }

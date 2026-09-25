@@ -73,27 +73,27 @@ public class Order {
             throw new IllegalStateException("No se pueden añadir artículos a un pedido que ya está " + this.status);
         }
 
-        // Proteger la invariante de duplicados al mutar la orden
-        boolean alreadyExists = this.items.stream()
-                .anyMatch(item -> item.getBookId().equals(bookId));
-
-        if (alreadyExists) {
-            throw new IllegalArgumentException("El libro ya existe en el pedido. Actualice la cantidad en su lugar.");
+        // Buscar si ya existe el libro
+        for (OrderItem item : items) {
+            if (item.getBookId().equals(bookId)) {
+                // Si existe, actualiza la cantidad en lugar de rechazar
+                item.increaseQuantity(quantity);
+                return;
+            }
         }
 
-        // Proteger la regla de negocio al añadir nuevos elementos dinámicamente
+        // Validar reglas de negocio para nuevos ítems
         if (format.requiresShipping() && this.shippingAddress == null) {
             throw new IllegalStateException(
                     "No se puede agregar un libro físico a un pedido que no tiene dirección de envío configurada.");
         }
 
         this.items.add(new OrderItem(bookId, format, unitPrice, quantity));
-
     }
 
     public void removeItem(BookId bookId) {
         if (this.status != OrderStatus.CREATED) {
-            throw new IllegalStateException("Cannot remove items from an order that is already " + this.status);
+            throw new IllegalStateException("No se pueden eliminar artículos de un pedido que ya está " + this.status);
         }
         boolean removed = this.items.removeIf(item -> item.getBookId().equals(bookId));
 
@@ -102,9 +102,19 @@ public class Order {
         }
     }
 
-    public void markAsPaid() {
+    // --- SAGA PATTERN ---
+
+    // Transición cuando el Inventario confirma la reserva
+    public void markAsReserved() {
         if (this.status != OrderStatus.CREATED) {
-            throw new IllegalStateException("Solo ordenes CREADAS pueden ser PAGADAS");
+            throw new IllegalStateException("Solo órdenes CREADAS pueden pasar a RESERVADAS.");
+        }
+        this.status = OrderStatus.RESERVED;
+    }
+
+    public void markAsPaid() {
+        if (this.status != OrderStatus.RESERVED) {
+            throw new IllegalStateException("La orden debe tener stock RESERVADO antes de ser PAGADA.");
         }
         if (this.items.isEmpty()) {
             throw new IllegalStateException("No se puede pagar una orden vacía.");
@@ -125,7 +135,6 @@ public class Order {
         }
         this.status = OrderStatus.CANCELLED;
     }
-
     // --- CÁLCULOS FINANCIEROS ---
 
     // 1. Tarifa 0% (Suma de los libros)
