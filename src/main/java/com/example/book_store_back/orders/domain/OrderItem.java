@@ -1,0 +1,53 @@
+package com.example.book_store_back.orders.domain;
+
+import java.math.BigDecimal;
+import java.util.Objects;
+
+//Entity
+public class OrderItem {
+    private final BookId bookId;
+    private final PriceSnapshot unitPrice;
+    private Quantity quantity;
+    private final ItemFormat format;
+
+    public OrderItem(BookId bookId, ItemFormat format, PriceSnapshot unitPrice, Quantity quantity) {
+        this.bookId = Objects.requireNonNull(bookId, "El id del libro no puede ser nulo.");
+        this.unitPrice = Objects.requireNonNull(unitPrice, "El precio por unidad no puede ser nulo.");
+        this.quantity = Objects.requireNonNull(quantity, "La cantidad no puede ser nula.");
+        this.format = Objects.requireNonNull(format, "El formato no puede ser nulo.");
+    }
+
+    public BigDecimal calculateSubtotal() {
+        return unitPrice.amount().multiply(BigDecimal.valueOf(quantity.value()));
+    }
+
+    public void increaseQuantity(Quantity extra) {
+        this.quantity = new Quantity(this.quantity.value() + extra.value());
+    }
+
+    public void decreaseQuantity(Quantity reduction) {
+        int newValue = this.quantity.value() - reduction.value();
+        if (newValue < 0) {
+            throw new IllegalArgumentException("La cantidad no puede ser menor que 0");
+        }
+        this.quantity = new Quantity(newValue);
+    }
+
+    // Getters
+    public BookId getBookId() {
+        return this.bookId;
+    }
+
+    public PriceSnapshot getUnitPrice() {
+        return this.unitPrice;
+    }
+
+    public Quantity getQuantity() {
+        return this.quantity;
+    }
+
+    public ItemFormat getItemFormat() {
+        return this.format;
+    }
+
+}

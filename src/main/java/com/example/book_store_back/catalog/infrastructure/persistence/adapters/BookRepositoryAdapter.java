@@ -59,5 +59,12 @@ public class BookRepositoryAdapter implements BookRepository {
         return mapper.toDomain(jpaRepository.findByIsbnValue(isbn));
     }
 
+    @Override
+    public List<Book> findAllByIds(List<UUID> bookIds) {
+        
+        return jpaRepository.findAllById(bookIds).stream()
+                .map(mapper::toDomain)
+                .toList();
+    }
 
 }

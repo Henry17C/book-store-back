@@ -30,6 +30,8 @@ import com.example.book_store_back.catalog.application.usecases.book.GetBookDeta
 import com.example.book_store_back.catalog.application.usecases.book.GetBookDetailsByIsbnUseCase;
 import com.example.book_store_back.catalog.application.usecases.book.GetBookDetailsInteractor;
 import com.example.book_store_back.catalog.application.usecases.book.GetBookDetailsUseCase;
+import com.example.book_store_back.catalog.application.usecases.book.GetBooksSnapshotInteractor;
+import com.example.book_store_back.catalog.application.usecases.book.GetBooksSnapshotUseCase;
 import com.example.book_store_back.catalog.application.usecases.book.GetCatalogPageInteractor;
 import com.example.book_store_back.catalog.application.usecases.book.GetCatalogPageUseCase;
 import com.example.book_store_back.catalog.application.usecases.book.GetCategorizedBooksInteractor;
@@ -77,6 +79,12 @@ public class CatalogConfig {
     }
 
     // ***** BOOK *****
+
+    @Bean
+    public GetBooksSnapshotUseCase getBooksSnapshotUseCase(BookRepository bookRepository) {
+        
+        return new GetBooksSnapshotInteractor(bookRepository);
+    }
     @Bean
     public ArchiveBookUseCase archiveBookUseCase(BookRepository bookRepository) {
         return new ArchiveBookInteractor(bookRepository);

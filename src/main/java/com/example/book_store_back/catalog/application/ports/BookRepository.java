@@ -14,4 +14,6 @@ public interface BookRepository {
     public Boolean existsById(UUID id);
     public Book findByIsbn(String isbn);
     
+    // Usado para comunicarse con el modulo Order
+    List<Book> findAllByIds(List<UUID> bookIds);
 }

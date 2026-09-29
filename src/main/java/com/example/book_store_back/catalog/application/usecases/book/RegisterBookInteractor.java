@@ -63,7 +63,7 @@ public class RegisterBookInteractor implements RegisterBookUseCase {
         bookRepository.save(book);
 
         // 4. Publicar el evento para que el modulo inventory cree un registro inicial mediante un listener.
-        BookCreatedEvent event = new BookCreatedEvent(id.toString(), title);
+        BookCreatedEvent event = new BookCreatedEvent(id.toString(), title, isbn.value());
         publisher.publish(event);
 
         return id;
