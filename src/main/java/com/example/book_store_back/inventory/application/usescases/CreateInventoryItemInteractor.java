@@ -28,7 +28,7 @@ public class CreateInventoryItemInteractor implements CreateInventoryItemUseCase
         }
         
         InventoryItem inventoryItem = InventoryItem.
-        create(command.productId(),command.title(), command.isbn(),command.createdAt(), command.initialStock());
+        create(command.productId(), command.initialStock());
         inventoryRepository.save(inventoryItem);
 
     }

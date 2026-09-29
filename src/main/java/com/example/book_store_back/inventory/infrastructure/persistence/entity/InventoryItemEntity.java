@@ -11,6 +11,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,20 +32,22 @@ public class InventoryItemEntity {
     @Column(name = "product_id", length = 36, nullable = false, unique = true)
     private String productId;
 
-    @Column(name = "title", length = 36, nullable = false, unique = true)
-    private String title;
-
-    @Column(name = "isbn", length = 36, nullable = false, unique = true)
-    private String isbn;
-
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "stock", nullable = false)
-    private Integer stock;
+    private Integer physicalStock;
+
+    @Version
+    @Column(name = "version", nullable = false)
+    private Long version;
 
     // Relación de 1 a Muchos con los movimientos.
     @OneToMany(mappedBy = "inventoryItem", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<StockMovementEntity> movements = new ArrayList<>();
+
+      // Relación de 1 a Muchos con los reservas.
+    @OneToMany(mappedBy = "inventoryItem", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<ReservationEntity> activeReservations = new ArrayList<>();
 
 }

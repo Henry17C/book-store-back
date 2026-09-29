@@ -24,7 +24,7 @@ public class RemoveStockInteractor implements  RemoveStockUseCase{
         InventoryItem inventoryItem = inventoryRepository.findByProductId(productId)
                 .orElseThrow(() -> new RuntimeException("Producto con ID " + productId + " no existe en inventario"));
 
-                inventoryItem.removeStock(stock);
+                inventoryItem.removePhysicalStock(stock);
 
         inventoryRepository.save(inventoryItem);
     }

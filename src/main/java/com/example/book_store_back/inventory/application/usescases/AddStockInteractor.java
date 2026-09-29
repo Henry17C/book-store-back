@@ -24,7 +24,7 @@ public class AddStockInteractor implements AddStockUseCase {
         InventoryItem inventoryItem = inventoryRepository.findByProductId(productId)
                 .orElseThrow(() -> new RuntimeException("Producto con ID " + productId + " no existe en inventario"));
 
-                inventoryItem.addStock(stock);
+                inventoryItem.addPhysicalStock(stock);
 
         inventoryRepository.save(inventoryItem);
     }

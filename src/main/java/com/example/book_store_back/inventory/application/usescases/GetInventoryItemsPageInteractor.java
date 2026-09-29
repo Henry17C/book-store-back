@@ -28,9 +28,7 @@ public class GetInventoryItemsPageInteractor implements GetInventoryItemsPageUse
                 .map(item -> new InventoryItemResult(
                         item.getId().value(),
                         item.getProductId().value(),
-                        item.getTitle(),
-                        item.getIsbn(),
-                        item.getStock().value()))
+                        item.getAvailableStock().value()))
                 .toList();
 
         return new PageResult<>(

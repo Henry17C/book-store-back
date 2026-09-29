@@ -76,8 +76,6 @@ public class InventoryController {
             return new InventoryItemResponse(
             c.id(),
             c.productId(),
-            c.title(),
-            c.isbn(),
             c.stock()
         );
     }).toList();

@@ -25,9 +25,6 @@ public class InventoryEventListener {
     public void onBookCreated(BookCreatedEvent event) {
         CreateInventoryItemCommand command = new CreateInventoryItemCommand(
                 new ProductId(event.productId()),
-                event.title(),
-                event.isbn(),
-                event.createdAt(),
                 new Quantity(0));
 
         createInventoryItemUseCase.execute(command);

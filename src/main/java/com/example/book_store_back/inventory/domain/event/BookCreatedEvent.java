@@ -4,11 +4,9 @@ import java.time.LocalDateTime;
 
 public record BookCreatedEvent(
     String productId,
-    String title,
-    String isbn,
     LocalDateTime createdAt
 ) {
-    public BookCreatedEvent(String productId, String title, String isbn) {
-        this(productId, title, isbn, LocalDateTime.now());
+    public BookCreatedEvent(String productId) {
+        this(productId, LocalDateTime.now());
     }
 }
