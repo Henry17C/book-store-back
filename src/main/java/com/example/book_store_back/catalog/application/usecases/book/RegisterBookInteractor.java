@@ -14,7 +14,7 @@ import com.example.book_store_back.catalog.domain.BookFormat;
 import com.example.book_store_back.catalog.domain.Isbn;
 import com.example.book_store_back.catalog.domain.Language;
 import com.example.book_store_back.catalog.domain.Money;
-import com.example.book_store_back.catalog.domain.events.BookCreatedEvent;
+import com.example.book_store_back.shared.domain.events.BookCreatedEvent;
 
 public class RegisterBookInteractor implements RegisterBookUseCase {
 
@@ -63,7 +63,7 @@ public class RegisterBookInteractor implements RegisterBookUseCase {
         bookRepository.save(book);
 
         // 4. Publicar el evento para que el modulo inventory cree un registro inicial mediante un listener.
-        BookCreatedEvent event = new BookCreatedEvent(id.toString(), title, isbn.value());
+        BookCreatedEvent event = new BookCreatedEvent(id.toString());
         publisher.publish(event);
 
         return id;
