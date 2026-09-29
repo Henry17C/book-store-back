@@ -9,7 +9,8 @@ import com.example.book_store_back.inventory.application.dtos.inventory.CreateIn
 import com.example.book_store_back.inventory.application.usescases.CreateInventoryItemUseCase;
 import com.example.book_store_back.inventory.domain.ProductId;
 import com.example.book_store_back.inventory.domain.Quantity;
-import com.example.book_store_back.inventory.domain.event.BookCreatedEvent;
+import com.example.book_store_back.shared.domain.events.BookCreatedEvent;
+
 
 @Component
 public class InventoryEventListener {
