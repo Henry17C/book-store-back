@@ -23,8 +23,8 @@ import com.example.book_store_back.orders.domain.PriceSnapshot;
 import com.example.book_store_back.orders.domain.Quantity;
 import com.example.book_store_back.orders.domain.ShippingAddress;
 import com.example.book_store_back.orders.domain.ShippingCost;
-import com.example.book_store_back.orders.domain.events.OrderCreatedEvent;
-import com.example.book_store_back.orders.domain.events.OrderCreatedEvent.OrderItemEvent;
+import com.example.book_store_back.shared.domain.events.OrderCreatedEvent;
+import com.example.book_store_back.shared.domain.events.OrderCreatedEvent.OrderItemEvent;
 
 public class CreateOrderInteractor implements CreateOrderUseCase {
 
