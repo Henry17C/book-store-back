@@ -1,5 +1,6 @@
 package com.example.book_store_back.inventory.infrastructure.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -8,6 +9,8 @@ import com.example.book_store_back.inventory.application.usescases.AddStockInter
 import com.example.book_store_back.inventory.application.usescases.AddStockUseCase;
 import com.example.book_store_back.inventory.application.usescases.CreateInventoryItemInteractor;
 import com.example.book_store_back.inventory.application.usescases.CreateInventoryItemUseCase;
+import com.example.book_store_back.inventory.application.usescases.CreateReservationInteractor;
+import com.example.book_store_back.inventory.application.usescases.CreateReservationUseCase;
 import com.example.book_store_back.inventory.application.usescases.GetInventoryItemsPageInteractor;
 import com.example.book_store_back.inventory.application.usescases.GetInventoryItemsPageUseCase;
 import com.example.book_store_back.inventory.application.usescases.RemoveStockInteractor;
@@ -15,25 +18,33 @@ import com.example.book_store_back.inventory.application.usescases.RemoveStockUs
 
 @Configuration
 public class InventoryConfig {
-    
+
     @Bean
-    public AddStockUseCase addStockUseCase(InventoryRepository inventoryRepository){
+    public AddStockUseCase addStockUseCase(InventoryRepository inventoryRepository) {
         return new AddStockInteractor(inventoryRepository);
     }
 
     @Bean
-    public CreateInventoryItemUseCase createInventoryItemUseCase(InventoryRepository inventoryRepository){
+    public CreateInventoryItemUseCase createInventoryItemUseCase(InventoryRepository inventoryRepository) {
         return new CreateInventoryItemInteractor(inventoryRepository);
     }
 
     @Bean
-    public GetInventoryItemsPageUseCase getInventoryItemsPageUseCase(InventoryRepository inventoryRepository){
+    public GetInventoryItemsPageUseCase getInventoryItemsPageUseCase(InventoryRepository inventoryRepository) {
         return new GetInventoryItemsPageInteractor(inventoryRepository);
     }
 
     @Bean
-    public RemoveStockUseCase removeStockUseCase(InventoryRepository inventoryRepository){
+    public RemoveStockUseCase removeStockUseCase(InventoryRepository inventoryRepository) {
         return new RemoveStockInteractor(inventoryRepository);
+    }
+
+    @Bean
+    public CreateReservationUseCase createReservationUseCase(
+            InventoryRepository inventoryRepository,
+            // Spring lee el valor del properties. Si no existe, usa 15 por defecto.
+            @Value("${app.inventory.reservation-minutes:15}") int reservationMinutes) {
+        return new CreateReservationInteractor(inventoryRepository, reservationMinutes);
     }
 
 }
