@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.example.book_store_back.inventory.application.ports.DomainEventPublisher;
 import com.example.book_store_back.inventory.application.ports.InventoryRepository;
 import com.example.book_store_back.inventory.application.usescases.AddStockInteractor;
 import com.example.book_store_back.inventory.application.usescases.AddStockUseCase;
@@ -43,8 +44,9 @@ public class InventoryConfig {
     public CreateReservationUseCase createReservationUseCase(
             InventoryRepository inventoryRepository,
             // Spring lee el valor del properties. Si no existe, usa 15 por defecto.
-            @Value("${app.inventory.reservation-minutes:15}") int reservationMinutes) {
-        return new CreateReservationInteractor(inventoryRepository, reservationMinutes);
+            @Value("${app.inventory.reservation-minutes:15}") int reservationMinutes,
+            DomainEventPublisher domainEventPublisher) {
+        return new CreateReservationInteractor(inventoryRepository, reservationMinutes,domainEventPublisher);
     }
 
 }
