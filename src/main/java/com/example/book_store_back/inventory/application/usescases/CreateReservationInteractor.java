@@ -27,7 +27,7 @@ public class CreateReservationInteractor implements CreateReservationUseCase {
         this.domainEventPublisher = domainEventPublisher;
     }
 
-@Override
+    @Override
     public void execute(OrderCreatedEvent event) {
 
         OrderId orderId = new OrderId(event.orderId());
@@ -43,13 +43,17 @@ public class CreateReservationInteractor implements CreateReservationUseCase {
                                 "Inventario no encontrado para el producto: " + productId.value()));
 
                 inventoryItem.reserve(orderId, quantityToReserve, expiresAt);
-                
+
                 inventoryRepository.save(inventoryItem);
             });
             domainEventPublisher.publish(new StockReservedEvent(orderId.value()));
 
-        } catch (IllegalStateException | IllegalArgumentException e) {
-            domainEventPublisher.publish(new StockReservedFailedEvent(orderId.value(), e.getMessage()));
+        } catch (IllegalArgumentException e) {
+            domainEventPublisher.publish(new StockReservedFailedEvent(orderId.value(), "PRODUCT_NOT_FOUND"));
+            throw e;
+
+        } catch (IllegalStateException e) {
+            domainEventPublisher.publish(new StockReservedFailedEvent(orderId.value(), "OUT_OF_STOCK"));
             throw e;
         }
     }
