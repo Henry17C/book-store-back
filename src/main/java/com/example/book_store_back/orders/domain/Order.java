@@ -16,17 +16,18 @@ public class Order {
     private OrderStatus status;
     private final List<OrderItem> items;
     private ShippingCost shippingCost;
+    private String cancellationReason;
 
     public Order(OrderId id, CustomerId customerId, ShippingAddress shippingAddress, ShippingCost shippingCost,
             LocalDateTime createdAt,
-            OrderStatus status, List<OrderItem> items) {
+            OrderStatus status, String cancellationReason, List<OrderItem> items) {
         this.id = Objects.requireNonNull(id, "El id de la order no puder ser nulo.");
         this.customerId = Objects.requireNonNull(customerId, "El id del cliente no puede ser nulo.");
         this.createdAt = Objects.requireNonNull(createdAt, "La fecha de creación no puede ser nula.");
         this.shippingCost = shippingCost;
         this.status = Objects.requireNonNull(status, "El estado de la orden no puede ser nulo.");
         this.items = new ArrayList<>(Objects.requireNonNull(items, "La lista de items no puede ser nula."));
-
+        this.cancellationReason= cancellationReason;
         // Regla de Negocio: Validar si la orden necesita dirección basada en los items
         boolean requiresShipping = this.items.stream()
                 .anyMatch(item -> item.getItemFormat().requiresShipping());
@@ -64,7 +65,7 @@ public class Order {
                     "El pedido contiene libros duplicados. Deben agruparse en una sola cantidad.");
         }
         return new Order(OrderId.generate(), customerId, shippingAddress, shippingCost, LocalDateTime.now(),
-                OrderStatus.CREATED,
+                OrderStatus.CREATED, null,
                 items);
     }
 
@@ -129,11 +130,12 @@ public class Order {
         this.status = OrderStatus.SHIPPED;
     }
 
-    public void cancel() {
+    public void cancel(String reason) {
         if (this.status == OrderStatus.SHIPPED) {
             throw new IllegalStateException("No se puede CANCELAR una orden que ya ha sido ENVIADA.");
         }
         this.status = OrderStatus.CANCELLED;
+        this.cancellationReason = reason;
     }
     // --- CÁLCULOS FINANCIEROS ---
 
@@ -192,6 +194,10 @@ public class Order {
 
     public ShippingCost getShippingCost() {
         return this.shippingCost;
+    }
+
+    public String getCancellationReason() {
+        return cancellationReason;
     }
 
 }

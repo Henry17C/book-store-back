@@ -30,6 +30,7 @@ public class OrderMapper {
         entity.setCustomerId(order.getCustomerId().value());
         entity.setCreatedAt(order.getCreatedAt());
         entity.setStatus(order.getStatus());
+        entity.setCancellationReason(order.getCancellationReason());
 
         // Mapeo condicional del VO de dirección
         if (order.getShippingAddress() != null) {
@@ -116,6 +117,7 @@ public class OrderMapper {
                 cost,
                 entity.getCreatedAt(),
                 entity.getStatus(),
+                entity.getCancellationReason(),
                 items);
     }
 }

@@ -42,6 +42,9 @@ public class OrderEntity {
     @Column(name = "status", nullable = false)
     private OrderStatus status;
 
+    @Column(name = "cancellation_reason", length = 255)
+    private String cancellationReason;
+
     // Relación 1 a N con los items del pedido
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItemEntity> items = new ArrayList<>();
