@@ -2,13 +2,15 @@ package com.example.book_store_back.orders.infraestructure.persistence.adapters;
 
 import java.util.Optional;
 
+import org.springframework.stereotype.Repository;
+
 import com.example.book_store_back.orders.application.ports.OrderRepository;
 import com.example.book_store_back.orders.domain.Order;
 import com.example.book_store_back.orders.domain.OrderId;
 import com.example.book_store_back.orders.infraestructure.persistence.entity.OrderEntity;
 import com.example.book_store_back.orders.infraestructure.persistence.jpa.OderRepositotySpring;
 import com.example.book_store_back.orders.infraestructure.persistence.mappers.OrderMapper;
-
+@Repository 
 public class OrderRepositoryAdapter implements OrderRepository {
 
     private final OderRepositotySpring oderRepositotySpring;
