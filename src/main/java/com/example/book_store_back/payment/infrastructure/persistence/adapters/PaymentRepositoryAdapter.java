@@ -1,0 +1,33 @@
+package com.example.book_store_back.payment.infrastructure.persistence.adapters;
+
+import org.springframework.context.ApplicationEventPublisher;
+
+import com.example.book_store_back.payment.application.ports.PaymentRepository;
+import com.example.book_store_back.payment.domain.Payment;
+import com.example.book_store_back.payment.infrastructure.persistence.entity.PaymentJpaEntity;
+import com.example.book_store_back.payment.infrastructure.persistence.jpa.SpringDataPaymentRepository;
+import com.example.book_store_back.payment.infrastructure.persistence.mappers.PaymentMapper;
+
+public class PaymentRepositoryAdapter implements PaymentRepository {
+
+    private final SpringDataPaymentRepository jpaRepository;
+    private final ApplicationEventPublisher eventPublisher;
+
+    public PaymentRepositoryAdapter(
+            SpringDataPaymentRepository jpaRepository,
+            ApplicationEventPublisher eventPublisher) {
+        this.jpaRepository = jpaRepository;
+        this.eventPublisher = eventPublisher;
+    }
+
+    @Override
+    public void save(Payment payment) {
+        PaymentJpaEntity entity = PaymentMapper.toJpaEntity(payment);
+        jpaRepository.save(entity);
+
+        // Extraer y limpiar los eventos del agregado en memoria
+        // Los publicar al bus de Spring para que el módulo de Órdenes los escuche
+        payment.pullDomainEvents().forEach(eventPublisher::publishEvent);
+    }
+
+}
