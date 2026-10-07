@@ -8,6 +8,8 @@ import com.example.book_store_back.payment.application.ports.PaymentGateway;
 import com.example.book_store_back.payment.application.ports.PaymentRepository;
 import com.example.book_store_back.payment.application.usecases.CreatePaymentIntentInteractor;
 import com.example.book_store_back.payment.application.usecases.CreatePaymentIntentUseCase;
+import com.example.book_store_back.payment.application.usecases.ProcessFailedPaymentInteractor;
+import com.example.book_store_back.payment.application.usecases.ProcessFailedPaymentUseCase;
 import com.example.book_store_back.payment.application.usecases.ProcessSuccessfulPaymentInteractor;
 import com.example.book_store_back.payment.application.usecases.ProcessSuccessfulPaymentUseCase;
 
@@ -27,6 +29,12 @@ public class PaymentConfig {
     public ProcessSuccessfulPaymentUseCase processSuccessfulPaymentUseCase(
         PaymentRepository paymentRepository) {
         return new ProcessSuccessfulPaymentInteractor(paymentRepository);
+    }
+
+    @Bean
+    public ProcessFailedPaymentUseCase processFailedPaymentUseCase(
+            PaymentRepository paymentRepository) {
+        return new ProcessFailedPaymentInteractor(paymentRepository);
     }
 
 }
