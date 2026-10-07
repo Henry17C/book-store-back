@@ -6,9 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.book_store_back.payment.application.dtos.CreatePaymentCommand;
 import com.example.book_store_back.payment.application.dtos.PaymentIntentResult;
-import com.example.book_store_back.payment.application.ports.FetchOrderInfoPort;
-import com.example.book_store_back.payment.application.ports.PaymentGatewayPort;
-import com.example.book_store_back.payment.application.ports.PaymentRepositoryPort;
+import com.example.book_store_back.payment.application.ports.FetchOrderInfo;
+import com.example.book_store_back.payment.application.ports.PaymentGateway;
+import com.example.book_store_back.payment.application.ports.PaymentRepository;
 import com.example.book_store_back.payment.domain.GatewayTransactionId;
 import com.example.book_store_back.payment.domain.Money;
 import com.example.book_store_back.payment.domain.OrderId;
@@ -17,14 +17,14 @@ import com.example.book_store_back.payment.domain.Payment;
 
 public class CreatePaymentIntentInteractor implements CreatePaymentIntentUseCase {
 
-    private final FetchOrderInfoPort fetchOrderInfoPort;
-    private final PaymentGatewayPort paymentGatewayPort;
-    private final PaymentRepositoryPort paymentRepositoryPort;
+    private final FetchOrderInfo fetchOrderInfoPort;
+    private final PaymentGateway paymentGatewayPort;
+    private final PaymentRepository paymentRepositoryPort;
 
     public CreatePaymentIntentInteractor(
-            FetchOrderInfoPort fetchOrderInfoPort,
-            PaymentGatewayPort paymentGatewayPort,
-            PaymentRepositoryPort paymentRepositoryPort) {
+            FetchOrderInfo fetchOrderInfoPort,
+            PaymentGateway paymentGatewayPort,
+            PaymentRepository paymentRepositoryPort) {
         this.fetchOrderInfoPort = fetchOrderInfoPort;
         this.paymentGatewayPort = paymentGatewayPort;
         this.paymentRepositoryPort = paymentRepositoryPort;
