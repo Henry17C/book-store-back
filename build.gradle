@@ -41,6 +41,7 @@ dependencies {
 	implementation 'org.springframework.retry:spring-retry:2.0.13'
 	implementation 'org.springframework.boot:spring-boot-starter-aop:4.0.0-M2'
 
+	implementation 'com.stripe:stripe-java:33.4.2'
 }
 
 tasks.named('test') {
