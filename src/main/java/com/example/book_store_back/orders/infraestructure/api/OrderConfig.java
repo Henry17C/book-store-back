@@ -3,6 +3,7 @@ package com.example.book_store_back.orders.infraestructure.api;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.example.book_store_back.catalog.application.api.CatalogInternalApi;
 import com.example.book_store_back.orders.application.ports.CatalogGateway;
 import com.example.book_store_back.orders.application.ports.DomainEventPublisher;
 import com.example.book_store_back.orders.application.ports.OrderRepository;
@@ -17,9 +18,15 @@ import com.example.book_store_back.orders.application.usecases.MarkOrderAsAwaiti
 import com.example.book_store_back.orders.application.usecases.MarkOrderAsAwaitingPaymentUseCase;
 import com.example.book_store_back.orders.application.usecases.MarkOrderAsPaidInteractor;
 import com.example.book_store_back.orders.application.usecases.MarkOrderAsPaidUseCase;
+import com.example.book_store_back.orders.infraestructure.integration.CatalogGatewayAdapter;
 
 @Configuration
 public class OrderConfig {
+
+    @Bean
+    public CatalogGatewayAdapter catalogGatewayAdapter(CatalogInternalApi catalogInternalApi) {
+        return new CatalogGatewayAdapter(catalogInternalApi);
+    }
 
     @Bean
     public CreateOrderUseCase createOrderUseCase(
