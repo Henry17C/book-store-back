@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.example.book_store_back.catalog.application.api.CatalogInternalApi;
 import com.example.book_store_back.catalog.application.listeners.UpdateBookRatingOnReviewArchivedListener;
 import com.example.book_store_back.catalog.application.listeners.UpdateBookRatingOnReviewCreatedListener;
 import com.example.book_store_back.catalog.application.listeners.UpdateBookRatingOnReviewUpdatedListener;
@@ -54,6 +55,7 @@ import com.example.book_store_back.catalog.application.usecases.review.UpdateRev
 import com.example.book_store_back.catalog.application.usecases.review.UpdateReviewUseCase;
 import com.example.book_store_back.catalog.application.usecases.review.WriteReviewInteractor;
 import com.example.book_store_back.catalog.application.usecases.review.WriteReviewUseCase;
+import com.example.book_store_back.catalog.infrastructure.integration.CatalogInternalApiImpl;
 
 @Configuration
 public class CatalogConfig {
@@ -69,22 +71,27 @@ public class CatalogConfig {
     }
 
     @Bean
-    public SearchAuthorsByNameUseCase searchAuthorsByNameUseCase(AuthorRepository authorRepository){
+    public SearchAuthorsByNameUseCase searchAuthorsByNameUseCase(AuthorRepository authorRepository) {
         return new SearchAuthorsByNameInteractor(authorRepository);
     }
 
     @Bean
-    public UpdateAuthorUseCase updateAuthorUseCase(AuthorRepository authorRepository){
+    public UpdateAuthorUseCase updateAuthorUseCase(AuthorRepository authorRepository) {
         return new UpdateAuthorInteractor(authorRepository);
     }
 
     // ***** BOOK *****
+    @Bean
+    public CatalogInternalApi catalogInternalApi(BookRepository bookRepository) {
+        return new CatalogInternalApiImpl(bookRepository);
+    }
 
     @Bean
     public GetBooksSnapshotUseCase getBooksSnapshotUseCase(BookRepository bookRepository) {
-        
+
         return new GetBooksSnapshotInteractor(bookRepository);
     }
+
     @Bean
     public ArchiveBookUseCase archiveBookUseCase(BookRepository bookRepository) {
         return new ArchiveBookInteractor(bookRepository);
@@ -98,20 +105,19 @@ public class CatalogConfig {
     }
 
     @Bean
-    public GetCatalogPageUseCase getCatalogPageUseCase(BookQueryGateway bookQueryGateway, InventoryGateway inventoryGateway) {
+    public GetCatalogPageUseCase getCatalogPageUseCase(BookQueryGateway bookQueryGateway,
+            InventoryGateway inventoryGateway) {
         return new GetCatalogPageInteractor(bookQueryGateway, inventoryGateway);
     }
 
     @Bean
     public GetCategorizedBooksUseCase getCategorizedBooksUseCase(BookQueryGateway bookQueryGateway) {
-        
+
         // 1. Instanciar las estrategias manualmente
         List<CategoryStrategy> strategies = List.of(
                 new BestSellersStrategy(bookQueryGateway)
                 // A medida que se creen más, agregar aquí
-                , new NewReleasesStrategy(bookQueryGateway)
-                , new RecommendedStrategy(bookQueryGateway)
-        );
+                , new NewReleasesStrategy(bookQueryGateway), new RecommendedStrategy(bookQueryGateway));
 
         // 2. Lista llena al Interactor
         return new GetCategorizedBooksInteractor(strategies);
@@ -123,7 +129,8 @@ public class CatalogConfig {
     }
 
     @Bean
-    public RegisterBookUseCase registerBookUseCase(BookRepository bookRepository, AuthorRepository authorRepository, DomainEventPublisher domainEventPublisher) {
+    public RegisterBookUseCase registerBookUseCase(BookRepository bookRepository, AuthorRepository authorRepository,
+            DomainEventPublisher domainEventPublisher) {
         return new RegisterBookInteractor(bookRepository, authorRepository, domainEventPublisher);
     }
 
@@ -148,7 +155,7 @@ public class CatalogConfig {
     }
 
     @Bean
-    public GetBookDetailsByIsbnUseCase getBookDetailsByIsbnUseCase (BookRepository bookRepository,
+    public GetBookDetailsByIsbnUseCase getBookDetailsByIsbnUseCase(BookRepository bookRepository,
             AuthorRepository authorRepository,
             ReviewRepository reviewRepository) {
         return new GetBookDetailsByIsbnInteractor(bookRepository, authorRepository, reviewRepository);
@@ -156,17 +163,20 @@ public class CatalogConfig {
 
     // ***** REVIEW *****
     @Bean
-    public ArchiveReviewUseCase archiveReviewUseCase(ReviewRepository reviewRepository, DomainEventPublisher publisher) {
+    public ArchiveReviewUseCase archiveReviewUseCase(ReviewRepository reviewRepository,
+            DomainEventPublisher publisher) {
         return new ArchiveReviewInteractor(reviewRepository, publisher);
     }
 
     @Bean
-    public UpdateReviewUseCase updateReviewUseCase(ReviewRepository reviewRepository, DomainEventPublisher domainEventPublisher) {
+    public UpdateReviewUseCase updateReviewUseCase(ReviewRepository reviewRepository,
+            DomainEventPublisher domainEventPublisher) {
         return new UpdateReviewInteractor(reviewRepository, domainEventPublisher);
     }
 
     @Bean
-    public WriteReviewUseCase writeReviewUseCase(BookRepository bookRepository, ReviewRepository reviewRepository, DomainEventPublisher eventPublisher) {
+    public WriteReviewUseCase writeReviewUseCase(BookRepository bookRepository, ReviewRepository reviewRepository,
+            DomainEventPublisher eventPublisher) {
         return new WriteReviewInteractor(bookRepository, reviewRepository, eventPublisher);
     }
 
@@ -175,17 +185,20 @@ public class CatalogConfig {
     // ==========================================================
 
     @Bean
-    public UpdateBookRatingOnReviewArchivedListener updateBookRatingOnReviewArchivedListener(BookRepository bookRepository) {
+    public UpdateBookRatingOnReviewArchivedListener updateBookRatingOnReviewArchivedListener(
+            BookRepository bookRepository) {
         return new UpdateBookRatingOnReviewArchivedListener(bookRepository);
     }
 
     @Bean
-    public UpdateBookRatingOnReviewCreatedListener updateBookRatingOnReviewCreatedListener(BookRepository bookRepository) {
+    public UpdateBookRatingOnReviewCreatedListener updateBookRatingOnReviewCreatedListener(
+            BookRepository bookRepository) {
         return new UpdateBookRatingOnReviewCreatedListener(bookRepository);
     }
 
     @Bean
-    public UpdateBookRatingOnReviewUpdatedListener updateBookRatingOnReviewUpdatedListener(BookRepository bookRepository, ReviewRepository reviewRepository) {
+    public UpdateBookRatingOnReviewUpdatedListener updateBookRatingOnReviewUpdatedListener(
+            BookRepository bookRepository, ReviewRepository reviewRepository) {
         return new UpdateBookRatingOnReviewUpdatedListener(bookRepository, reviewRepository);
     }
 }
