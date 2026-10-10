@@ -1,4 +1,5 @@
-package com.example.book_store_back.catalog.infrastructure.config;
+package com.example.book_store_back.shared.intrastructure.config;
+
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
