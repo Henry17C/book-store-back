@@ -7,10 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 
 import com.example.book_store_back.catalog.infrastructure.persistence.entities.BookEntity;
-@Repository
 public interface  SpringBookQueryJpaRepository extends JpaRepository<BookEntity, UUID> {
     
     // 1. Busqueda por Keyword (Título o ISBN)
