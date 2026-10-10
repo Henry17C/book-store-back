@@ -7,13 +7,13 @@ import java.util.UUID;
 import com.example.book_store_back.catalog.application.dtos.book.RegisterBookCommand;
 import com.example.book_store_back.catalog.application.ports.AuthorRepository;
 import com.example.book_store_back.catalog.application.ports.BookRepository;
-import com.example.book_store_back.catalog.application.ports.DomainEventPublisher;
 import com.example.book_store_back.catalog.domain.Book;
 import com.example.book_store_back.catalog.domain.BookDescription;
 import com.example.book_store_back.catalog.domain.BookFormat;
 import com.example.book_store_back.catalog.domain.Isbn;
 import com.example.book_store_back.catalog.domain.Language;
 import com.example.book_store_back.catalog.domain.Money;
+import com.example.book_store_back.shared.application.ports.DomainEventPublisher;
 import com.example.book_store_back.shared.domain.events.BookCreatedEvent;
 
 public class RegisterBookInteractor implements RegisterBookUseCase {

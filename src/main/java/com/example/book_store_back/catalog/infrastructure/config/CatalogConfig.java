@@ -12,7 +12,6 @@ import com.example.book_store_back.catalog.application.listeners.UpdateBookRatin
 import com.example.book_store_back.catalog.application.ports.AuthorRepository;
 import com.example.book_store_back.catalog.application.ports.BookQueryGateway;
 import com.example.book_store_back.catalog.application.ports.BookRepository;
-import com.example.book_store_back.catalog.application.ports.DomainEventPublisher;
 import com.example.book_store_back.catalog.application.ports.InventoryGateway;
 import com.example.book_store_back.catalog.application.ports.ReviewRepository;
 import com.example.book_store_back.catalog.application.strategies.BestSellersStrategy;
@@ -56,7 +55,7 @@ import com.example.book_store_back.catalog.application.usecases.review.UpdateRev
 import com.example.book_store_back.catalog.application.usecases.review.WriteReviewInteractor;
 import com.example.book_store_back.catalog.application.usecases.review.WriteReviewUseCase;
 import com.example.book_store_back.catalog.infrastructure.integration.CatalogInternalApiImpl;
-
+import com.example.book_store_back.shared.application.ports.DomainEventPublisher;
 @Configuration
 public class CatalogConfig {
 

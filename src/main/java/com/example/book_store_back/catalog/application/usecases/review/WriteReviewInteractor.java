@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import com.example.book_store_back.catalog.application.dtos.review.WriteReviewCommand;
 import com.example.book_store_back.catalog.application.ports.BookRepository;
-import com.example.book_store_back.catalog.application.ports.DomainEventPublisher;
+import com.example.book_store_back.shared.application.ports.DomainEventPublisher;
 import com.example.book_store_back.catalog.application.ports.ReviewRepository;
 import com.example.book_store_back.catalog.domain.Review;
 import com.example.book_store_back.catalog.domain.events.ReviewCreatedEvent;
@@ -13,7 +13,7 @@ public class WriteReviewInteractor implements WriteReviewUseCase {
 
     private final BookRepository bookRepository;
     private final ReviewRepository reviewRepository;
-    private final DomainEventPublisher eventPublisher; 
+    private final DomainEventPublisher eventPublisher;
 
     public WriteReviewInteractor(BookRepository bookRepository, ReviewRepository reviewRepository, DomainEventPublisher eventPublisher) {
         this.bookRepository = bookRepository;

@@ -3,10 +3,10 @@ package com.example.book_store_back.catalog.application.usecases.review;
 import java.util.UUID;
 
 import com.example.book_store_back.catalog.application.dtos.review.UpdateReviewCommand;
-import com.example.book_store_back.catalog.application.ports.DomainEventPublisher;
 import com.example.book_store_back.catalog.application.ports.ReviewRepository;
 import com.example.book_store_back.catalog.domain.Review;
 import com.example.book_store_back.catalog.domain.events.ReviewUpdatedEvent;
+import com.example.book_store_back.shared.application.ports.DomainEventPublisher;
 
 public class UpdateReviewInteractor implements UpdateReviewUseCase {
     private final ReviewRepository reviewRepository;

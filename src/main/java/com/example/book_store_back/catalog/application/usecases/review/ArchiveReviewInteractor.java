@@ -2,10 +2,10 @@ package com.example.book_store_back.catalog.application.usecases.review;
 
 import java.util.UUID;
 
-import com.example.book_store_back.catalog.application.ports.DomainEventPublisher;
 import com.example.book_store_back.catalog.application.ports.ReviewRepository;
 import com.example.book_store_back.catalog.domain.Review;
 import com.example.book_store_back.catalog.domain.events.ReviewArchivedEvent;
+import com.example.book_store_back.shared.application.ports.DomainEventPublisher;
 
 public class ArchiveReviewInteractor implements ArchiveReviewUseCase {
 

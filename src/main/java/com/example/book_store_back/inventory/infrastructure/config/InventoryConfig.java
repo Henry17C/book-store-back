@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.example.book_store_back.inventory.application.ports.DomainEventPublisher;
 import com.example.book_store_back.inventory.application.ports.InventoryRepository;
 import com.example.book_store_back.inventory.application.usescases.AddStockInteractor;
 import com.example.book_store_back.inventory.application.usescases.AddStockUseCase;
@@ -16,6 +15,7 @@ import com.example.book_store_back.inventory.application.usescases.GetInventoryI
 import com.example.book_store_back.inventory.application.usescases.GetInventoryItemsPageUseCase;
 import com.example.book_store_back.inventory.application.usescases.RemoveStockInteractor;
 import com.example.book_store_back.inventory.application.usescases.RemoveStockUseCase;
+import com.example.book_store_back.shared.application.ports.DomainEventPublisher;
 
 @Configuration
 public class InventoryConfig {

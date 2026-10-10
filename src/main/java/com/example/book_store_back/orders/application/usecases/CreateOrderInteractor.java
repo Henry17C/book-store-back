@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.book_store_back.orders.application.dtos.CreateOrderCommand;
 import com.example.book_store_back.orders.application.ports.CatalogGateway;
 import com.example.book_store_back.orders.application.ports.CatalogGateway.BookSnapshotData;
-import com.example.book_store_back.orders.application.ports.DomainEventPublisher;
 import com.example.book_store_back.orders.application.ports.OrderRepository;
 import com.example.book_store_back.orders.application.ports.ShippingPricingService;
 import com.example.book_store_back.orders.domain.BookId;
@@ -25,7 +24,7 @@ import com.example.book_store_back.orders.domain.ShippingAddress;
 import com.example.book_store_back.orders.domain.ShippingCost;
 import com.example.book_store_back.shared.domain.events.OrderCreatedEvent;
 import com.example.book_store_back.shared.domain.events.OrderCreatedEvent.OrderItemEvent;
-
+import com.example.book_store_back.shared.application.ports.DomainEventPublisher;
 public class CreateOrderInteractor implements CreateOrderUseCase {
 
     private final OrderRepository orderRepository;
