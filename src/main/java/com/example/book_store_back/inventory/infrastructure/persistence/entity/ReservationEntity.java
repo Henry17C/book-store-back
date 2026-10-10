@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-@Table(name = "inventory_items")
+@Table(name = "inventory_reservations")
 @Entity
 @Getter
 @Setter
